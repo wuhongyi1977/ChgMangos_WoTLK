@@ -139,15 +139,15 @@ bool MySQLConnection::Initialize(const char *infoString)
 
     if (!mMysql)
     {
-        sLog.outError( "Could not connect to MySQL database at %s: %s\n",
+        sLog.outError( "无法连接 MySQL 数据库 %s: %s\n",
         host.c_str(),mysql_error(mysqlInit));
         mysql_close(mysqlInit);
         return false;
     }
 
-    DETAIL_LOG("Connected to MySQL database %s@%s:%s/%s", user.c_str(), host.c_str(), port_or_socket.c_str(), database.c_str());
-    sLog.outString("MySQL client library: %s", mysql_get_client_info());
-    sLog.outString("MySQL server ver: %s ", mysql_get_server_info( mMysql));
+    DETAIL_LOG("连接到 MySQL 数据库 %s@%s:%s/%s", user.c_str(), host.c_str(), port_or_socket.c_str(), database.c_str());
+    //sLog.outString("MySQL客户端版本： %s", mysql_get_client_info());
+    //sLog.outString("MySQL服务器版本： %s", mysql_get_server_info( mMysql));
 
     /*----------SET AUTOCOMMIT ON---------*/
     // It seems mysql 5.0.x have enabled this feature

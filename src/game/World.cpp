@@ -83,8 +83,14 @@ float World::m_MaxVisibleDistanceInFlight     = DEFAULT_VISIBILITY_DISTANCE;
 float World::m_VisibleUnitGreyDistance        = 0;
 float World::m_VisibleObjectGreyDistance      = 0;
 
-float  World::m_relocation_lower_limit_sq     = 10.f * 10.f;
+float World::m_relocation_lower_limit_sq     = 10.f * 10.f;
 uint32 World::m_relocation_ai_notify_delay    = 1000u;
+
+//PVP Announcer
+void World::SendPvPAnnounce(std::string str)
+{
+    SendWorldText(LANG_PVP_ANNOUNCER, str.c_str());
+}
 
 /// World constructor
 World::World()
