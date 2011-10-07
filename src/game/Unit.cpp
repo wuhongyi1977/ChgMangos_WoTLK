@@ -5045,16 +5045,21 @@ void Unit::RemoveAurasDueToItemSpell(Item* castItem,uint32 spellId)
 
 void Unit::RemoveAurasWithInterruptFlags(uint32 flags)
 {
-    for (SpellAuraHolderMap::iterator iter = m_spellAuraHolders.begin(); iter != m_spellAuraHolders.end(); )
+    std::set<SpellAuraHolderPtr> holdersToRemove;
     {
-        SpellAuraHolderPtr holder = iter->second;
-        if (holder && holder->GetSpellProto()->AuraInterruptFlags & flags)
+        MAPLOCK_READ(this,MAP_LOCK_TYPE_AURAS);
+        for (SpellAuraHolderMap::iterator iter = m_spellAuraHolders.begin(); iter != m_spellAuraHolders.end(); ++iter)
         {
-            RemoveSpellAuraHolder(holder);
-            iter = m_spellAuraHolders.begin();
+            SpellAuraHolderPtr holder = iter->second;
+            if (holder && !holder->IsDeleted() &&  holder->GetSpellProto()->AuraInterruptFlags & flags)
+                holdersToRemove.insert(holder);
         }
-        else
-            ++iter;
+    }
+
+    if (!holdersToRemove.empty())
+    {
+        for(std::set<SpellAuraHolderPtr>::const_iterator i = holdersToRemove.begin(); i != holdersToRemove.end(); ++i)
+            RemoveSpellAuraHolder((*i));
     }
 }
 
@@ -11036,25 +11041,28 @@ void Unit::ProcDamageAndSpellFor( bool isVictim, Unit * pTarget, uint32 procFlag
     RemoveSpellList removedSpells;
     ProcTriggeredList procTriggered;
     // Fill procTriggered list
-    for(SpellAuraHolderMap::const_iterator itr = GetSpellAuraHolderMap().begin(); itr!= GetSpellAuraHolderMap().end(); ++itr)
     {
-        // skip deleted auras (possible at recursive triggered call
-        if (itr->second->IsDeleted())
-            continue;
+        MAPLOCK_READ(this,MAP_LOCK_TYPE_AURAS);
+        for(SpellAuraHolderMap::const_iterator itr = GetSpellAuraHolderMap().begin(); itr!= GetSpellAuraHolderMap().end(); ++itr)
+        {
+            // skip deleted auras (possible at recursive triggered call
+            if (itr->second->IsDeleted())
+                continue;
 
-        SpellProcEventEntry const* spellProcEvent = NULL;
-        if(!IsTriggeredAtSpellProcEvent(pTarget, itr->second, procSpell, procFlag, procExtra, attType, isVictim, spellProcEvent))
-           continue;
+            SpellProcEventEntry const* spellProcEvent = NULL;
+            if(!IsTriggeredAtSpellProcEvent(pTarget, itr->second, procSpell, procFlag, procExtra, attType, isVictim, spellProcEvent))
+               continue;
 
-        // Frost Nova: prevent to remove root effect on self damage
-        if (itr->second->GetCaster() == pTarget)
-           if (SpellEntry const* spellInfo = itr->second->GetSpellProto())
-              if (procSpell && spellInfo->SpellFamilyName == SPELLFAMILY_MAGE && spellInfo->SpellFamilyFlags.test<CF_MAGE_FROST_NOVA>()
-                 && procSpell->SpellFamilyName == SPELLFAMILY_MAGE && procSpell->SpellFamilyFlags.test<CF_MAGE_FROST_NOVA>())
-                    continue;
+            // Frost Nova: prevent to remove root effect on self damage
+            if (itr->second->GetCaster() == pTarget)
+               if (SpellEntry const* spellInfo = itr->second->GetSpellProto())
+                  if (procSpell && spellInfo->SpellFamilyName == SPELLFAMILY_MAGE && spellInfo->SpellFamilyFlags.test<CF_MAGE_FROST_NOVA>()
+                     && procSpell->SpellFamilyName == SPELLFAMILY_MAGE && procSpell->SpellFamilyFlags.test<CF_MAGE_FROST_NOVA>())
+                        continue;
 
-        itr->second->SetInUse(true);                        // prevent holder deletion
-        procTriggered.push_back( ProcTriggeredData(spellProcEvent, itr->second) );
+            itr->second->SetInUse(true);                        // prevent holder deletion
+            procTriggered.push_back( ProcTriggeredData(spellProcEvent, itr->second) );
+        }
     }
 
     // Nothing found
