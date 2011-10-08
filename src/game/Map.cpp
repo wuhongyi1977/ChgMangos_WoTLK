@@ -1199,7 +1199,7 @@ void Map::CreateInstanceData(bool load)
             const char* data = fields[0].GetString();
             if (data)
             {
-                DEBUG_LOG("Loading instance data for `%s` (Map: %u Instance: %u)", sScriptMgr.GetScriptName(i_script_id), GetId(), i_InstanceId);
+                DEBUG_LOG("¼ÓÔØ instance data for `%s` (Map: %u Instance: %u)", sScriptMgr.GetScriptName(i_script_id), GetId(), i_InstanceId);
                 i_data->Load(data);
             }
             delete result;

@@ -2079,7 +2079,7 @@ void PlayerbotAI::DoLoot()
                 }
                 else
                 {
-                    TellMaster("My skill is not high enough. It requires %u, but mine is %u.",
+                    TellMaster("My skill is not high enough. It requires %u, 但 mine is %u.",
                                reqSkillValue, SkillValue);
                     skillFailed = true;
                 }
@@ -4147,7 +4147,7 @@ void PlayerbotAI::HandleCommand(const std::string& text, Player& fromPlayer)
         PlayerbotChatHandler ch(GetMaster());
         int8 linkStart = text.find("|");
         if (linkStart < 0 || !ch.dropQuest((char *) text.substr(linkStart).c_str()))
-            ch.sysmessage("ERROR: could not drop quest");
+            ch.sysmessage("错误： could not drop quest");
         if (!oldSelectionGUID.IsEmpty())
             fromPlayer.SetSelectionGuid(oldSelectionGUID);
     }

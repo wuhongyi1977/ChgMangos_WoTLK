@@ -258,7 +258,7 @@ void AuctionBotConfig::setConfig(AuctionBotConfigUInt32Values index, char const*
     setConfig(index, m_AhBotCfg.GetIntDefault(fieldname,defvalue));
     if (int32(getConfig(index)) < 0)
     {
-        sLog.outError("AHBot: %s (%i) can't be negative. Using %u instead.", fieldname, int32(getConfig(index)), defvalue);
+        sLog.outError("AHBot: %s (%i) 不能加载，使用 %u instead.", fieldname, int32(getConfig(index)), defvalue);
         setConfig(index, defvalue);
     }
 }
@@ -268,7 +268,7 @@ void AuctionBotConfig::setConfigMax(AuctionBotConfigUInt32Values index, char con
     setConfig(index, m_AhBotCfg.GetIntDefault(fieldname,defvalue));
     if (getConfig(index) > maxvalue)
     {
-        sLog.outError("AHBot: %s (%u) must be in range 0...%u. Using %u instead.", fieldname, getConfig(index), maxvalue, maxvalue);
+        sLog.outError("AHBot: %s (%u) must be in range 0...%u. 使用 %u 代替.", fieldname, getConfig(index), maxvalue, maxvalue);
         setConfig(index, maxvalue);
     }
 }
@@ -278,12 +278,12 @@ void AuctionBotConfig::setConfigMinMax(AuctionBotConfigUInt32Values index, char 
     setConfig(index, m_AhBotCfg.GetIntDefault(fieldname,defvalue));
     if (getConfig(index) > maxvalue)
     {
-        sLog.outError("AHBot: %s (%u) must be in range %u...%u. Using %u instead.", fieldname, getConfig(index), minvalue, maxvalue, maxvalue);
+        sLog.outError("AHBot: %s (%u) must be in range %u...%u. 使用 %u 代替.", fieldname, getConfig(index), minvalue, maxvalue, maxvalue);
         setConfig(index, maxvalue);
     }
     if (getConfig(index) < minvalue)
     {
-        sLog.outError("AHBot: %s (%u) must be in range %u...%u. Using %u instead.", fieldname, getConfig(index), minvalue, maxvalue, minvalue);
+        sLog.outError("AHBot: %s (%u) must be in range %u...%u. 使用 %u 代替.", fieldname, getConfig(index), minvalue, maxvalue, minvalue);
         setConfig(index, minvalue);
     }
 }
@@ -905,7 +905,7 @@ bool AuctionBotSeller::Initialize()
     sLog.outString("Forced Exclusion " SIZEFMTD " items", excludeItems.size());
     sLog.outString();
 
-    sLog.outString("Loading npc vendor items for filter..");
+    sLog.outString("加载 npc vendor items for filter..");
     if (QueryResult* result = WorldDatabase.Query("SELECT DISTINCT item FROM npc_vendor"))
     {
         BarGoLink bar(result->GetRowCount());
@@ -926,7 +926,7 @@ bool AuctionBotSeller::Initialize()
     sLog.outString("Npc vendor filter has " SIZEFMTD " items", npcItems.size());
     sLog.outString();
 
-    sLog.outString("Loading loot items for filter..");
+    sLog.outString("加载 loot items for filter..");
     if (QueryResult* result = WorldDatabase.PQuery(
         "SELECT item FROM creature_loot_template UNION "
         "SELECT item FROM disenchant_loot_template UNION "

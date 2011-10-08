@@ -2452,7 +2452,7 @@ void AchievementGlobalMgr::LoadAchievementCriteriaList()
         bar.step();
 
         sLog.outString();
-        sLog.outErrorDb(">> Loaded 0 achievement criteria.");
+        sLog.outErrorDb(">> 加载 0 achievement criteria.");
         return;
     }
 
@@ -2472,7 +2472,7 @@ void AchievementGlobalMgr::LoadAchievementCriteriaList()
     }
 
     sLog.outString();
-    sLog.outString(">> Loaded %lu achievement criteria.",(unsigned long)m_AchievementCriteriasByType->size());
+    sLog.outString(">> 加载 %lu achievement criteria.",(unsigned long)m_AchievementCriteriasByType->size());
 }
 
 void AchievementGlobalMgr::LoadAchievementReferenceList()
@@ -2483,7 +2483,7 @@ void AchievementGlobalMgr::LoadAchievementReferenceList()
         bar.step();
 
         sLog.outString();
-        sLog.outErrorDb(">> Loaded 0 achievement references.");
+        sLog.outErrorDb(">> 加载 0 achievement references.");
         return;
     }
 
@@ -2502,7 +2502,7 @@ void AchievementGlobalMgr::LoadAchievementReferenceList()
     }
 
     sLog.outString();
-    sLog.outString(">> Loaded %u achievement references.", count);
+    sLog.outString(">> 加载了 %u 个 achievement references.", count);
 }
 
 void AchievementGlobalMgr::LoadAchievementCriteriaRequirements()
@@ -2517,7 +2517,7 @@ void AchievementGlobalMgr::LoadAchievementCriteriaRequirements()
         bar.step();
 
         sLog.outString();
-        sLog.outString(">> Loaded 0 additional achievement criteria data. DB table `achievement_criteria_requirement` is empty.");
+        sLog.outString(">> 加载 0 additional achievement criteria data. 数据表 `achievement_criteria_requirement` 是空的.");
         return;
     }
 
@@ -2635,7 +2635,7 @@ void AchievementGlobalMgr::LoadAchievementCriteriaRequirements()
     }
 
     sLog.outString();
-    sLog.outString(">> Loaded %u additional achievement criteria data (%u disabled).",count,disabled_count);
+    sLog.outString(">> 加载了 %u 个 additional achievement criteria data (%u disabled).",count,disabled_count);
 }
 
 void AchievementGlobalMgr::LoadCompletedAchievements()
@@ -2648,7 +2648,7 @@ void AchievementGlobalMgr::LoadCompletedAchievements()
         bar.step();
 
         sLog.outString();
-        sLog.outString(">> Loaded 0 realm completed achievements . DB table `character_achievement` is empty.");
+        sLog.outString(">> 加载 0 realm completed achievements . 数据表 `character_achievement` 是空的.");
         return;
     }
 
@@ -2673,7 +2673,7 @@ void AchievementGlobalMgr::LoadCompletedAchievements()
     delete result;
 
     sLog.outString();
-    sLog.outString(">> Loaded %lu realm completed achievements.",(unsigned long)m_allCompletedAchievements.size());
+    sLog.outString(">> 加载 %lu realm completed achievements.",(unsigned long)m_allCompletedAchievements.size());
 }
 
 void AchievementGlobalMgr::LoadRewards()
@@ -2690,7 +2690,7 @@ void AchievementGlobalMgr::LoadRewards()
         bar.step();
 
         sLog.outString();
-        sLog.outErrorDb(">> Loaded 0 achievement rewards. DB table `achievement_reward` is empty.");
+        sLog.outErrorDb(">> 加载 0 achievement rewards. 数据表 `achievement_reward` 是空的.");
         return;
     }
 
@@ -2805,7 +2805,7 @@ void AchievementGlobalMgr::LoadRewards()
     delete result;
 
     sLog.outString();
-    sLog.outString( ">> Loaded %u achievement rewards", count );
+    sLog.outString( ">> 加载了 %u 个 achievement rewards", count );
 }
 
 void AchievementGlobalMgr::LoadRewardLocales()
@@ -2821,7 +2821,7 @@ void AchievementGlobalMgr::LoadRewardLocales()
         bar.step();
 
         sLog.outString();
-        sLog.outString(">> Loaded 0 achievement reward locale strings. DB table `locales_achievement_reward` is empty.");
+        sLog.outString(">> 加载 0 achievement reward locale strings. 数据表 `locales_achievement_reward` 是空的.");
         return;
     }
 
@@ -2898,5 +2898,5 @@ void AchievementGlobalMgr::LoadRewardLocales()
     delete result;
 
     sLog.outString();
-    sLog.outString( ">> Loaded %lu achievement reward locale strings", (unsigned long)m_achievementRewardLocales.size() );
+    sLog.outString( ">> 加载 %lu achievement reward locale strings", (unsigned long)m_achievementRewardLocales.size() );
 }

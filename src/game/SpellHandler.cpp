@@ -77,7 +77,7 @@ void WorldSession::HandleUseItemOpcode(WorldPacket& recvPacket)
         return;
     }
 
-    DETAIL_LOG("WORLD: CMSG_USE_ITEM packet, bagIndex: %u, slot: %u, cast_count: %u, spellid: %u, Item: %u, glyphIndex: %u, unk_flags: %u, data length = %i", bagIndex, slot, cast_count, spellid, pItem->GetEntry(), glyphIndex, unk_flags, (uint32)recvPacket.size());
+    DETAIL_LOG("世界： CMSG_USE_ITEM packet, bagIndex: %u, slot: %u, cast_count: %u, spellid: %u, Item: %u, glyphIndex: %u, unk_flags: %u, data length = %i", bagIndex, slot, cast_count, spellid, pItem->GetEntry(), glyphIndex, unk_flags, (uint32)recvPacket.size());
 
     ItemPrototype const *proto = pItem->GetProto();
     if (!proto)
@@ -204,7 +204,7 @@ void WorldSession::HandleUseItemOpcode(WorldPacket& recvPacket)
 
 void WorldSession::HandleOpenItemOpcode(WorldPacket& recvPacket)
 {
-    DETAIL_LOG("WORLD: CMSG_OPEN_ITEM packet, data length = %i",(uint32)recvPacket.size());
+    DETAIL_LOG("世界： CMSG_OPEN_ITEM packet, data length = %i",(uint32)recvPacket.size());
 
     uint8 bagIndex, slot;
 
@@ -290,7 +290,7 @@ void WorldSession::HandleGameObjectUseOpcode( WorldPacket & recv_data )
 
     recv_data >> guid;
 
-    DEBUG_LOG("WORLD: Recvd CMSG_GAMEOBJ_USE Message guid: %s", guid.GetString().c_str());
+    DEBUG_LOG("世界： Recvd CMSG_GAMEOBJ_USE Message guid: %s", guid.GetString().c_str());
 
     // ignore for remote control state
     if (!_player->IsSelfMover())
@@ -330,7 +330,7 @@ void WorldSession::HandleGameobjectReportUse(WorldPacket& recvPacket)
     ObjectGuid guid;
     recvPacket >> guid;
 
-    DEBUG_LOG("WORLD: Recvd CMSG_GAMEOBJ_REPORT_USE Message guid: %s", guid.GetString().c_str());
+    DEBUG_LOG("世界： Recvd CMSG_GAMEOBJ_REPORT_USE Message guid: %s", guid.GetString().c_str());
 
     // ignore for remote control state
     if (!_player->IsSelfMover())
@@ -362,7 +362,7 @@ void WorldSession::HandleCastSpellOpcode(WorldPacket& recvPacket)
         return;
     }
 
-    DEBUG_LOG("WORLD: got cast spell packet, spellId - %u, cast_count: %u, unk_flags %u, data length = %i",
+    DEBUG_LOG("世界： got cast spell packet, spellId - %u, cast_count: %u, unk_flags %u, data length = %i",
         spellId, cast_count, unk_flags, (uint32)recvPacket.size());
 
     /* process anticheat check */
@@ -373,7 +373,7 @@ void WorldSession::HandleCastSpellOpcode(WorldPacket& recvPacket)
 
     if(!spellInfo)
     {
-        sLog.outError("WORLD: unknown spell id %u", spellId);
+        sLog.outError("世界： unknown spell id %u", spellId);
         recvPacket.rpos(recvPacket.wpos());                 // prevent spam at ignore packet
         return;
     }
@@ -550,7 +550,7 @@ void WorldSession::HandlePetCancelAuraOpcode( WorldPacket& recvPacket)
     SpellEntry const *spellInfo = sSpellStore.LookupEntry(spellId );
     if(!spellInfo)
     {
-        sLog.outError("WORLD: unknown PET spell id %u", spellId);
+        sLog.outError("世界： unknown PET spell id %u", spellId);
         return;
     }
 
@@ -622,7 +622,7 @@ void WorldSession::HandleTotemDestroyed( WorldPacket& recvPacket)
 
 void WorldSession::HandleSelfResOpcode( WorldPacket & /*recv_data*/ )
 {
-    DEBUG_FILTER_LOG(LOG_FILTER_SPELL_CAST, "WORLD: CMSG_SELF_RES");                  // empty opcode
+    DEBUG_FILTER_LOG(LOG_FILTER_SPELL_CAST, "世界： CMSG_SELF_RES");                  // empty opcode
 
     if(_player->GetUInt32Value(PLAYER_SELF_RES_SPELL))
     {
@@ -705,7 +705,7 @@ void WorldSession::HandleUpdateProjectilePosition(WorldPacket& recvPacket)
 
 void WorldSession::HandleGetMirrorimageData(WorldPacket& recv_data)
 {
-    DEBUG_FILTER_LOG(LOG_FILTER_SPELL_CAST, "WORLD: CMSG_GET_MIRRORIMAGE_DATA");
+    DEBUG_FILTER_LOG(LOG_FILTER_SPELL_CAST, "世界： CMSG_GET_MIRRORIMAGE_DATA");
 
     ObjectGuid guid;
     recv_data >> guid;

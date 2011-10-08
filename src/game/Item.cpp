@@ -93,7 +93,7 @@ void AddItemsSetItem(Player* player, Item* item)
                 SpellEntry const* spellInfo = sSpellStore.LookupEntry(set->spells[x]);
                 if (!spellInfo)
                 {
-                    sLog.outError("WORLD: unknown spell id %u in items set %u effects", set->spells[x],setid);
+                    sLog.outError("世界： unknown spell id %u in items set %u effects", set->spells[x],setid);
                     break;
                 }
 
@@ -382,7 +382,7 @@ void Item::SaveToDB()
 
             SqlStatement stmt = CharacterDatabase.CreateStatement(saveLoot, "INSERT INTO item_loot (guid,owner_guid,itemid,amount,suffix,property) VALUES (?, ?, ?, ?, ?, ?)");
 
-            // save items and quest items (at load its all will added as normal, but this not important for item loot case)
+            // save items and quest items (at load its all will added as normal, 但该 not important for item loot case)
             for (size_t i = 0; i < loot.GetMaxSlotInLootFor(owner); ++i)
             {
                 QuestItem* qitem = NULL;

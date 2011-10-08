@@ -419,7 +419,7 @@ void GameObject::Update(uint32 update_diff, uint32 diff)
                     }
                     else                                    // environmental trap
                     {
-                        // environmental damage spells already have around enemies targeting but this not help in case nonexistent GO casting support
+                        // environmental damage spells already have around enemies targeting 但该 not help in case nonexistent GO casting support
 
                         // affect only players
                         Player* p_ok = NULL;
@@ -1357,7 +1357,7 @@ void GameObject::Use(Unit* user)
             {
                 case GO_READY:                              // ready for loot
                 {
-                    // 1) skill must be >= base_zone_skill
+                    // 1) skill 必须 >= base_zone_skill
                     // 2) if skill == base_zone_skill => 5% chance
                     // 3) chance is linear dependence from (base_zone_skill-skill)
 
@@ -1899,7 +1899,7 @@ void GameObject::Use(Unit* user)
     SpellEntry const *spellInfo = sSpellStore.LookupEntry(spellId);
     if (!spellInfo)
     {
-        sLog.outError("WORLD: unknown spell id %u at use action for gameobject (Entry: %u GoType: %u )", spellId,GetEntry(),GetGoType());
+        sLog.outError("世界： unknown spell id %u at use action for gameobject (Entry: %u GoType: %u )", spellId,GetEntry(),GetGoType());
         return;
     }
 

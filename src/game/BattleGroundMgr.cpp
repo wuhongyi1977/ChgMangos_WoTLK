@@ -1649,7 +1649,7 @@ void BattleGroundMgr::CreateInitialBattleGrounds()
         bar.step();
 
         sLog.outString();
-        sLog.outErrorDb(">> Loaded 0 battlegrounds. DB table `battleground_template` is empty.");
+        sLog.outErrorDb(">> 加载 0 battlegrounds. 数据表 `battleground_template` 是空的.");
         return;
     }
 
@@ -1745,7 +1745,7 @@ void BattleGroundMgr::CreateInitialBattleGrounds()
     delete result;
 
     sLog.outString();
-    sLog.outString( ">> Loaded %u battlegrounds", count );
+    sLog.outString( ">> 加载了 %u 个 battlegrounds", count );
 }
 
 void BattleGroundMgr::InitAutomaticArenaPointDistribution()
@@ -2070,7 +2070,7 @@ void BattleGroundMgr::LoadBattleMastersEntry()
         bar.step();
 
         sLog.outString();
-        sLog.outString(">> Loaded 0 battlemaster entries - table is empty!");
+        sLog.outString(">> 加载 0 battlemaster entries - table is empty!");
         return;
     }
 
@@ -2098,7 +2098,7 @@ void BattleGroundMgr::LoadBattleMastersEntry()
     delete result;
 
     sLog.outString();
-    sLog.outString( ">> Loaded %u battlemaster entries", count );
+    sLog.outString( ">> 加载了 %u 个 battlemaster entries", count );
 }
 
 HolidayIds BattleGroundMgr::BGTypeToWeekendHolidayId(BattleGroundTypeId bgTypeId)
@@ -2182,7 +2182,7 @@ void BattleGroundMgr::LoadBattleEventIndexes()
         bar.step();
 
         sLog.outString();
-        sLog.outErrorDb(">> Loaded 0 battleground eventindexes.");
+        sLog.outErrorDb(">> 加载 0 battleground eventindexes.");
         return;
     }
 
@@ -2242,6 +2242,6 @@ void BattleGroundMgr::LoadBattleEventIndexes()
     } while(result->NextRow());
 
     sLog.outString();
-    sLog.outString( ">> Loaded %u battleground eventindexes", count);
+    sLog.outString( ">> 加载了 %u 个 battleground eventindexes", count);
     delete result;
 }

@@ -564,7 +564,7 @@ void Spell::FillTargetMap()
                 {
                     case TARGET_ALL_ENEMY_IN_AREA:
                         // Note: this hack with search required until GO casting not implemented
-                        // environment damage spells already have around enemies targeting but this not help in case nonexistent GO casting support
+                        // environment damage spells already have around enemies targeting 但该 not help in case nonexistent GO casting support
                         // currently each enemy selected explicitly and self cast damage
                         if (m_spellInfo->Effect[i] == SPELL_EFFECT_ENVIRONMENTAL_DAMAGE)
                         {
@@ -4985,7 +4985,7 @@ void Spell::HandleEffects(Unit *pUnitTarget, Item *pItemTarget, GameObject *pGOT
     }
     else
     {
-        sLog.outError("WORLD: Spell FX %d > TOTAL_SPELL_EFFECTS ", eff);
+        sLog.outError("世界： Spell FX %d > TOTAL_SPELL_EFFECTS ", eff);
     }
 
     // store effect index who did the damage (for picking correct damage multiplier)
@@ -6292,7 +6292,7 @@ SpellCastResult Spell::CheckPetCast(Unit* target)
                 if(!target)
                 {
                     return SPELL_FAILED_BAD_IMPLICIT_TARGETS;
-                    DEBUG_LOG("Charmed creature attempt to cast spell %u, but no required target",m_spellInfo->Id);
+                    DEBUG_LOG("Charmed creature attempt to cast spell %u, 但 no required target",m_spellInfo->Id);
                 }
                 break;
             }
@@ -6308,13 +6308,13 @@ SpellCastResult Spell::CheckPetCast(Unit* target)
             {
                 if (m_caster->IsHostileTo(_target))
                 {
-                    DEBUG_LOG("Charmed creature attempt to cast positive spell %u, but target (guid %s) is hostile",m_spellInfo->Id, target->GetObjectGuid().GetString().c_str());
+                    DEBUG_LOG("Charmed creature attempt to cast positive spell %u, 但 target (guid %s) is hostile",m_spellInfo->Id, target->GetObjectGuid().GetString().c_str());
                     return SPELL_FAILED_BAD_TARGETS;
                 }
             }
             else if (!_target->isTargetableForAttack() || (!_target->isVisibleForOrDetect(m_caster,m_caster,true) && !m_IsTriggeredSpell))
             {
-                DEBUG_LOG("Charmed creature attempt to cast spell %u, but target (guid %s) is not targetable or not detectable",m_spellInfo->Id,target->GetObjectGuid().GetString().c_str());
+                DEBUG_LOG("Charmed creature attempt to cast spell %u, 但 target (guid %s) is not targetable or not detectable",m_spellInfo->Id,target->GetObjectGuid().GetString().c_str());
                 return SPELL_FAILED_BAD_TARGETS;            // guessed error
             }
             else
@@ -6334,14 +6334,14 @@ SpellCastResult Spell::CheckPetCast(Unit* target)
                 {
                     if (!m_caster->IsHostileTo(_target) && (m_caster->GetCharmerOrOwner() && m_caster->GetCharmerOrOwner()->IsFriendlyTo(_target)))
                     {
-                        DEBUG_LOG("Charmed creature attempt to cast negative spell %u, but target (guid %s) is friendly",m_spellInfo->Id, target->GetObjectGuid().GetString().c_str());
+                        DEBUG_LOG("Charmed creature attempt to cast negative spell %u, 但 target (guid %s) is friendly",m_spellInfo->Id, target->GetObjectGuid().GetString().c_str());
                         return SPELL_FAILED_BAD_TARGETS;
                     }
                 }
                 else if (!m_caster->GetVehicleKit() && m_caster->IsFriendlyTo(_target) && !(!m_caster->GetCharmerOrOwner() || !m_caster->GetCharmerOrOwner()->IsFriendlyTo(_target))
                      && !dualEffect && !IsDispelSpell(m_spellInfo))
                 {
-                    DEBUG_LOG("Charmed creature attempt to cast spell %u, but target (guid %s) is not valid",m_spellInfo->Id,_target->GetObjectGuid().GetString().c_str());
+                    DEBUG_LOG("Charmed creature attempt to cast spell %u, 但 target (guid %s) is not valid",m_spellInfo->Id,_target->GetObjectGuid().GetString().c_str());
                     return SPELL_FAILED_BAD_TARGETS;
                 }
 

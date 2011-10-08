@@ -1144,7 +1144,7 @@ void SpellMgr::LoadSpellTargetPositions()
         bar.step();
 
         sLog.outString();
-        sLog.outString(">> Loaded %u spell target destination coordinates", count);
+        sLog.outString(">> 加载了 %u 个 spell target destination coordinates", count);
         return;
     }
 
@@ -1221,7 +1221,7 @@ void SpellMgr::LoadSpellTargetPositions()
     delete result;
 
     sLog.outString();
-    sLog.outString(">> Loaded %u spell target destination coordinates", count);
+    sLog.outString(">> 加载了 %u 个 spell target destination coordinates", count);
 }
 
 template <typename EntryType, typename WorkerType, typename StorageType>
@@ -1459,7 +1459,7 @@ void SpellMgr::LoadSpellProcEvents()
     delete result;
 
     sLog.outString();
-    sLog.outString( ">> Loaded %u extra spell proc event conditions +%u custom proc (inc. +%u custom ranks)",  rankHelper.worker.count, rankHelper.worker.customProc, rankHelper.customRank);
+    sLog.outString( ">> 加载了 %u 个 extra spell proc event conditions +%u custom proc (inc. +%u custom ranks)",  rankHelper.worker.count, rankHelper.worker.customProc, rankHelper.customRank);
 }
 
 struct DoSpellProcItemEnchant
@@ -1487,7 +1487,7 @@ void SpellMgr::LoadSpellProcItemEnchant()
         bar.step();
 
         sLog.outString();
-        sLog.outString(">> Loaded %u proc item enchant definitions", count);
+        sLog.outString(">> 加载了 %u 个 proc item enchant definitions", count);
         return;
     }
 
@@ -1531,7 +1531,7 @@ void SpellMgr::LoadSpellProcItemEnchant()
     delete result;
 
     sLog.outString();
-    sLog.outString( ">> Loaded %u proc item enchant definitions", count );
+    sLog.outString( ">> 加载了 %u 个 proc item enchant definitions", count );
 }
 
 bool IsCastEndProcModifierAura(SpellEntry const *spellInfo, SpellEffectIndex effecIdx, SpellEntry const *procSpell)
@@ -1589,7 +1589,7 @@ void SpellMgr::LoadSpellBonuses()
         BarGoLink bar(1);
         bar.step();
         sLog.outString();
-        sLog.outString(">> Loaded %u spell bonus data", count);
+        sLog.outString(">> 加载了 %u 个 spell bonus data", count);
         return;
     }
 
@@ -1732,7 +1732,7 @@ void SpellMgr::LoadSpellBonuses()
     delete result;
 
     sLog.outString();
-    sLog.outString( ">> Loaded %u extra spell bonus data",  count);
+    sLog.outString( ">> 加载了 %u 个 extra spell bonus data",  count);
 }
 
 bool SpellMgr::IsSpellProcEventCanTriggeredBy(SpellProcEventEntry const * spellProcEvent, uint32 EventProcFlag, SpellEntry const * procSpell, uint32 procFlags, uint32 procExtra)
@@ -1811,7 +1811,7 @@ void SpellMgr::LoadSpellElixirs()
         bar.step();
 
         sLog.outString();
-        sLog.outString(">> Loaded %u spell elixir definitions", count);
+        sLog.outString(">> 加载了 %u 个 spell elixir definitions", count);
         return;
     }
 
@@ -1842,7 +1842,7 @@ void SpellMgr::LoadSpellElixirs()
     delete result;
 
     sLog.outString();
-    sLog.outString( ">> Loaded %u spell elixir definitions", count );
+    sLog.outString( ">> 加载了 %u 个 spell elixir definitions", count );
 }
 
 struct DoSpellThreat
@@ -1940,7 +1940,7 @@ void SpellMgr::LoadSpellThreats()
     delete result;
 
     sLog.outString();
-    sLog.outString( ">> Loaded %u spell threat entries", rankHelper.worker.count );
+    sLog.outString( ">> 加载了 %u 个 spell threat entries", rankHelper.worker.count );
 }
 
 bool SpellMgr::IsRankSpellDueToSpell(SpellEntry const *spellInfo_1,uint32 spellId_2) const
@@ -2537,7 +2537,7 @@ void SpellMgr::LoadSpellChains()
         bar.step();
 
         sLog.outString();
-        sLog.outString(">> Loaded 0 spell chain records");
+        sLog.outString(">> 加载 0 spell chain records");
         sLog.outErrorDb("`spell_chains` table is empty!");
         return;
     }
@@ -2781,7 +2781,7 @@ void SpellMgr::LoadSpellChains()
     }
 
     sLog.outString();
-    sLog.outString( ">> Loaded %u spell chain records (%u from DBC data with %u req field updates, and %u loaded from table)", dbc_count+new_count, dbc_count, req_count, new_count);
+    sLog.outString( ">> 加载了 %u 个 spell chain records (%u from DBC data with %u req field updates, and %u loaded from table)", dbc_count+new_count, dbc_count, req_count, new_count);
 }
 
 void SpellMgr::LoadSpellLearnSkills()
@@ -2820,7 +2820,7 @@ void SpellMgr::LoadSpellLearnSkills()
     }
 
     sLog.outString();
-    sLog.outString(">> Loaded %u Spell Learn Skills from DBC", dbc_count);
+    sLog.outString(">> 加载了 %u 个 Spell Learn Skills from DBC", dbc_count);
 }
 
 void SpellMgr::LoadSpellLearnSpells()
@@ -2835,7 +2835,7 @@ void SpellMgr::LoadSpellLearnSpells()
         bar.step();
 
         sLog.outString();
-        sLog.outString(">> Loaded 0 spell learn spells");
+        sLog.outString(">> 加载 0 spell learn spells");
         sLog.outErrorDb("`spell_learn_spell` table is empty!");
         return;
     }
@@ -2930,7 +2930,7 @@ void SpellMgr::LoadSpellLearnSpells()
     }
 
     sLog.outString();
-    sLog.outString( ">> Loaded %u spell learn spells + %u found in DBC", count, dbc_count );
+    sLog.outString( ">> 加载了 %u 个 spell learn spells + %u found in DBC", count, dbc_count );
 }
 
 void SpellMgr::LoadSpellScriptTarget()
@@ -2948,7 +2948,7 @@ void SpellMgr::LoadSpellScriptTarget()
         bar.step();
 
         sLog.outString();
-        sLog.outErrorDb(">> Loaded 0 SpellScriptTarget. DB table `spell_script_target` is empty.");
+        sLog.outErrorDb(">> 加载 0 SpellScriptTarget. 数据表 `spell_script_target` 是空的.");
         return;
     }
 
@@ -3030,7 +3030,7 @@ void SpellMgr::LoadSpellScriptTarget()
                 {
                     if (spellId == 30427 && !cInfo->SkinLootId)
                     {
-                        sLog.outErrorDb("Table `spell_script_target` has creature %u as a target of spellid 30427, but this creature has no skinlootid. Gas extraction will not work!", cInfo->Entry);
+                        sLog.outErrorDb("Table `spell_script_target` has creature %u as a target of spellid 30427, 但该 creature has no skinlootid. Gas extraction will not work!", cInfo->Entry);
                         continue;
                     }
                 }
@@ -3075,7 +3075,7 @@ void SpellMgr::LoadSpellScriptTarget()
     */
 
     sLog.outString();
-    sLog.outString(">> Loaded %u Spell Script Targets", count);
+    sLog.outString(">> 加载了 %u 个 Spell Script Targets", count);
 }
 
 void SpellMgr::LoadSpellPetAuras()
@@ -3094,7 +3094,7 @@ void SpellMgr::LoadSpellPetAuras()
         bar.step();
 
         sLog.outString();
-        sLog.outString(">> Loaded %u spell pet auras", count);
+        sLog.outString(">> 加载了 %u 个 spell pet auras", count);
         return;
     }
 
@@ -3163,7 +3163,7 @@ void SpellMgr::LoadSpellPetAuras()
     delete result;
 
     sLog.outString();
-    sLog.outString( ">> Loaded %u spell pet auras", count );
+    sLog.outString( ">> 加载了 %u 个 spell pet auras", count );
 }
 
 void SpellMgr::LoadPetLevelupSpellMap()
@@ -3204,7 +3204,7 @@ void SpellMgr::LoadPetLevelupSpellMap()
     }
 
     sLog.outString();
-    sLog.outString( ">> Loaded %u pet levelup and default spells for %u families", count, family_count );
+    sLog.outString( ">> 加载了 %u 个 pet levelup and default spells for %u families", count, family_count );
 }
 
 bool SpellMgr::LoadPetDefaultSpells_helper(CreatureInfo const* cInfo, PetDefaultSpellsEntry& petDefSpells)
@@ -3329,7 +3329,7 @@ void SpellMgr::LoadPetDefaultSpells()
     }
 
     sLog.outString();
-    sLog.outString( ">> Loaded addition spells for %u pet spell data entries and %u summonable creature templates", countData, countCreature );
+    sLog.outString( ">> 加载 addition spells for %u pet spell data entries and %u summonable creature templates", countData, countCreature );
 }
 
 /// Some checks for spells, to prevent adding deprecated/broken spells for trainers, spell book, etc
@@ -3445,7 +3445,7 @@ void SpellMgr::LoadSpellAreas()
         bar.step();
 
         sLog.outString();
-        sLog.outString(">> Loaded %u spell area requirements", count);
+        sLog.outString(">> 加载了 %u 个 spell area requirements", count);
         return;
     }
 
@@ -3638,7 +3638,7 @@ void SpellMgr::LoadSpellAreas()
     delete result;
 
     sLog.outString();
-    sLog.outString(">> Loaded %u spell area requirements", count);
+    sLog.outString(">> 加载了 %u 个 spell area requirements", count);
 }
 
 SpellCastResult SpellMgr::GetSpellAllowedInLocationError(SpellEntry const *spellInfo, uint32 map_id, uint32 zone_id, uint32 area_id, Player const* player)
@@ -3805,7 +3805,7 @@ void SpellMgr::LoadSkillLineAbilityMap()
     }
 
     sLog.outString();
-    sLog.outString(">> Loaded %u SkillLineAbility MultiMap Data", count);
+    sLog.outString(">> 加载了 %u 个 SkillLineAbility MultiMap Data", count);
 }
 
 void SpellMgr::LoadSkillRaceClassInfoMap()
@@ -3832,7 +3832,7 @@ void SpellMgr::LoadSkillRaceClassInfoMap()
     }
 
     sLog.outString();
-    sLog.outString(">> Loaded %u SkillRaceClassInfo MultiMap Data", count);
+    sLog.outString(">> 加载了 %u 个 SkillRaceClassInfo MultiMap Data", count);
 }
 
 void SpellMgr::CheckUsedSpells(char const* table)

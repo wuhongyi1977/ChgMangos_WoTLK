@@ -167,7 +167,7 @@ void LFGMgr::LoadRewards()
         bar.step();
 
         sLog.outString();
-        sLog.outErrorDb(">> Loaded 0 LFG dungeon rewards. DB table `lfg_dungeon_rewards` is empty!");
+        sLog.outErrorDb(">> 加载 0 LFG dungeon rewards. 数据表 `lfg_dungeon_rewards` is empty!");
         return;
     }
 
@@ -217,7 +217,7 @@ void LFGMgr::LoadRewards()
     while (result->NextRow());
 
     sLog.outString();
-    sLog.outString(">> Loaded %u LFG dungeon rewards.", count);
+    sLog.outString(">> 加载了 %u 个 LFG dungeon rewards.", count);
 }
 
 LFGReward const* LFGMgr::GetRandomDungeonReward(LFGDungeonEntry const* dungeon, Player* player)
@@ -2336,7 +2336,7 @@ void LFGMgr::TryCompleteGroups(LFGType type)
 
         if (IsGroupCompleted(group))
         {
-            DEBUG_LOG("LFGMgr:TryCompleteGroups: Try complete group %u  type %u, but his already completed!", group->GetObjectGuid().GetCounter(), type);
+            DEBUG_LOG("LFGMgr:TryCompleteGroups: Try complete group %u  type %u, 但 his already completed!", group->GetObjectGuid().GetCounter(), type);
             CompleteGroup(group,NULL);
             isGroupCompleted = true;
             break;

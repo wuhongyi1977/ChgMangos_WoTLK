@@ -611,7 +611,7 @@ LexicsCutterNoActionOnGM = 1
 #        Limit numbers of characters per account (at all realms).
 #        Note: this setting limits the character creating at the _current_ realm base at characters amount at all realms
 #        Default: 50
-#                The number must be >= CharactersPerRealm
+#                The number ±ØÐë >= CharactersPerRealm
 #
 #    CharactersPerRealm
 #        Limit numbers of characters for account at realm

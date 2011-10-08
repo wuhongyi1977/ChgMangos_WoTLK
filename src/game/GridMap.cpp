@@ -87,7 +87,7 @@ bool GridMap::loadData(char *filename)
         // loadup area data
         if (header.areaMapOffset && !loadAreaData(in, header.areaMapOffset, header.areaMapSize))
         {
-            sLog.outError("Error loading map area data\n");
+            sLog.outError("载入数据表错误, map area data\n");
             fclose(in);
             return false;
         }
@@ -95,7 +95,7 @@ bool GridMap::loadData(char *filename)
         // loadup height data
         if (header.heightMapOffset && !loadHeightData(in, header.heightMapOffset, header.heightMapSize))
         {
-            sLog.outError("Error loading map height data\n");
+            sLog.outError("载入数据表错误, map height data\n");
             fclose(in);
             return false;
         }
@@ -103,7 +103,7 @@ bool GridMap::loadData(char *filename)
         // loadup liquid data
         if (header.liquidMapOffset && !loadGridMapLiquidData(in, header.liquidMapOffset, header.liquidMapSize))
         {
-            sLog.outError("Error loading map liquids data\n");
+            sLog.outError("载入数据表错误, map liquids data\n");
             fclose(in);
             return false;
         }
@@ -1090,7 +1090,7 @@ GridMap * TerrainInfo::LoadMapAndVMap( const uint32 x, const uint32 y )
             int len = sWorld.GetDataPath().length()+strlen("maps/%03u%02u%02u.map")+1;
             tmp = new char[len];
             snprintf(tmp, len, (char *)(sWorld.GetDataPath()+"maps/%03u%02u%02u.map").c_str(),m_mapId, x, y);
-            sLog.outDetail("Loading map %s",tmp);
+            sLog.outDetail("加载 map %s",tmp);
 
             if(!map->loadData(tmp))
             {

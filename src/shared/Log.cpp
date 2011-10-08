@@ -487,7 +487,7 @@ void Log::outErrorDb( const char * err, ... )
     if (logfile)
     {
         outTimestamp(logfile);
-        fprintf(logfile, "ERROR:" );
+        fprintf(logfile, "´íÎó£º" );
 
         va_start(ap, err);
         vfprintf(logfile, err, ap);

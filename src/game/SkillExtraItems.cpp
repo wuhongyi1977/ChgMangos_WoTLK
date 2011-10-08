@@ -109,12 +109,12 @@ void LoadSkillExtraItemTable()
         delete result;
 
         sLog.outString();
-        sLog.outString(">> Loaded %u spell specialization definitions", count);
+        sLog.outString(">> 加载了 %u 个 spell specialization definitions", count);
     }
     else
     {
         sLog.outString();
-        sLog.outString( ">> Loaded 0 spell specialization definitions. DB table `skill_extra_item_template` is empty." );
+        sLog.outString( ">> 加载 0 spell specialization definitions. 数据表 `skill_extra_item_template` 是空的." );
     }
 }
 

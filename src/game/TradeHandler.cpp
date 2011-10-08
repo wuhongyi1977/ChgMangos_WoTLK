@@ -69,13 +69,13 @@ void WorldSession::SendTradeStatus(TradeStatus status)
 
 void WorldSession::HandleIgnoreTradeOpcode(WorldPacket& /*recvPacket*/)
 {
-    DEBUG_LOG( "WORLD: Ignore Trade %u",_player->GetGUIDLow());
+    DEBUG_LOG( "世界： Ignore Trade %u",_player->GetGUIDLow());
     // recvPacket.print_storage();
 }
 
 void WorldSession::HandleBusyTradeOpcode(WorldPacket& /*recvPacket*/)
 {
-    DEBUG_LOG( "WORLD: Busy Trade %u",_player->GetGUIDLow());
+    DEBUG_LOG( "世界： Busy Trade %u",_player->GetGUIDLow());
     // recvPacket.print_storage();
 }
 
@@ -648,7 +648,7 @@ void WorldSession::HandleSetTradeGoldOpcode(WorldPacket& recvPacket)
     if (!my_trade)
         return;
 
-    // gold can be incorrect, but this is checked at trade finished.
+    // gold can be incorrect, 但该 is checked at trade finished.
     my_trade->SetMoney(gold);
 }
 

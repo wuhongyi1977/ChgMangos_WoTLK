@@ -159,7 +159,7 @@ void RealmList::UpdateRealms(bool init)
 
             if (realmflags & ~(REALM_FLAG_OFFLINE|REALM_FLAG_NEW_PLAYERS|REALM_FLAG_RECOMMENDED|REALM_FLAG_SPECIFYBUILD))
             {
-                sLog.outError("Realm allowed have only OFFLINE Mask 0x2), or NEWPLAYERS (mask 0x20), or RECOMENDED (mask 0x40), or SPECIFICBUILD (mask 0x04) flags in DB");
+                sLog.outError("服务器标识设置错误！允许类型：离线(Mask 0x2), 新角色(mask 0x20), 测试(mask 0x40), 开发(mask 0x04)");
                 realmflags &= (REALM_FLAG_OFFLINE|REALM_FLAG_NEW_PLAYERS|REALM_FLAG_RECOMMENDED|REALM_FLAG_SPECIFYBUILD);
             }
 

@@ -3137,11 +3137,11 @@ bool Player::addSpell(uint32 spell_id, bool active, bool learning, bool dependen
         // do character spell book cleanup (all characters)
         if(!IsInWorld() && !learning)                       // spell load case
         {
-            sLog.outError("Player::addSpell: nonexistent in SpellStore spell #%u request, deleting for all characters in `character_spell`.",spell_id);
+            sLog.outError("角色：addSpell: nonexistent in SpellStore spell #%u request, deleting for all characters in `character_spell`.",spell_id);
             CharacterDatabase.PExecute("DELETE FROM character_spell WHERE spell = '%u'",spell_id);
         }
         else
-            sLog.outError("Player::addSpell: nonexistent in SpellStore spell #%u request.",spell_id);
+            sLog.outError("角色：addSpell: nonexistent in SpellStore spell #%u request.",spell_id);
 
         return false;
     }
@@ -3151,11 +3151,11 @@ bool Player::addSpell(uint32 spell_id, bool active, bool learning, bool dependen
         // do character spell book cleanup (all characters)
         if(!IsInWorld() && !learning)                       // spell load case
         {
-            sLog.outError("Player::addSpell: Broken spell #%u learning not allowed, deleting for all characters in `character_spell`.",spell_id);
+            sLog.outError("角色：addSpell: Broken spell #%u learning not allowed, deleting for all characters in `character_spell`.",spell_id);
             CharacterDatabase.PExecute("DELETE FROM character_spell WHERE spell = '%u'",spell_id);
         }
         else
-            sLog.outError("Player::addSpell: Broken spell #%u learning not allowed.",spell_id);
+            sLog.outError("角色：addSpell: Broken spell #%u learning not allowed.",spell_id);
 
         return false;
     }
@@ -4543,7 +4543,7 @@ void Player::DeleteFromDB(ObjectGuid playerguid, uint32 accountId, bool updateRe
             CharacterDatabase.PExecute("UPDATE characters SET deleteInfos_Name=name, deleteInfos_Account=account, deleteDate='" UI64FMTD "', name='', account=0 WHERE guid=%u", uint64(time(NULL)), lowguid);
             break;
         default:
-            sLog.outError("Player::DeleteFromDB: Unsupported delete method: %u.", charDelete_method);
+            sLog.outError("角色：DeleteFromDB: Unsupported delete method: %u.", charDelete_method);
     }
 
     if (updateRealmChars)
@@ -4573,12 +4573,12 @@ void Player::DeleteOldCharacters()
  */
 void Player::DeleteOldCharacters(uint32 keepDays)
 {
-    sLog.outString("Player::DeleteOldChars: Deleting all characters which have been deleted %u days before...", keepDays);
+    sLog.outString("角色：删除过期角色: 删除已经删除 %u 天得角色...", keepDays);
 
     QueryResult *resultChars = CharacterDatabase.PQuery("SELECT guid, deleteInfos_Account FROM characters WHERE deleteDate IS NOT NULL AND deleteDate < '" UI64FMTD "'", uint64(time(NULL) - time_t(keepDays * DAY)));
     if (resultChars)
     {
-        sLog.outString("Player::DeleteOldChars: Found %u character(s) to delete",uint32(resultChars->GetRowCount()));
+        sLog.outString("角色：删除过期角色: 找到 %u 个过期角色",uint32(resultChars->GetRowCount()));
         do
         {
             Field *charFields = resultChars->Fetch();
@@ -4599,7 +4599,7 @@ void Player::SetMovement(PlayerMovementType pType)
         case MOVE_WATER_WALK: data.Initialize(SMSG_MOVE_WATER_WALK,   GetPackGUID().size()+4); break;
         case MOVE_LAND_WALK:  data.Initialize(SMSG_MOVE_LAND_WALK,    GetPackGUID().size()+4); break;
         default:
-            sLog.outError("Player::SetMovement: Unsupported move type (%d), data not sent to client.",pType);
+            sLog.outError("角色：SetMovement: Unsupported move type (%d), data not sent to client.",pType);
             return;
     }
     data << GetPackGUID();
@@ -5717,7 +5717,7 @@ bool Player::UpdateSkillPro(uint16 SkillId, int32 Chance, uint32 step)
 
     if (Chance <= 0)                                         // speedup in 0 chance case
     {
-        DEBUG_LOG("Player::UpdateSkillPro Chance=%3.1f%% missed", Chance/10.0);
+        DEBUG_LOG("角色：UpdateSkillPro Chance=%3.1f%% missed", Chance/10.0);
         return false;
     }
 
@@ -5778,11 +5778,11 @@ bool Player::UpdateSkillPro(uint16 SkillId, int32 Chance, uint32 step)
         }
 
         GetAchievementMgr().UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_REACH_SKILL_LEVEL,SkillId);
-        DEBUG_LOG("Player::UpdateSkillPro Chance=%3.1f%% taken", Chance/10.0);
+        DEBUG_LOG("角色：UpdateSkillPro Chance=%3.1f%% taken", Chance/10.0);
         return true;
     }
 
-    DEBUG_LOG("Player::UpdateSkillPro Chance=%3.1f%% missed", Chance/10.0);
+    DEBUG_LOG("角色：UpdateSkillPro Chance=%3.1f%% missed", Chance/10.0);
     return false;
 }
 
@@ -7878,7 +7878,7 @@ void Player::ApplyEquipSpell(SpellEntry const* spellInfo, Item* item, bool apply
                 return;
         }
 
-        DEBUG_LOG("WORLD: cast %s Equip spellId - %i", (item ? "item" : "itemset"), spellInfo->Id);
+        DEBUG_LOG("世界： cast %s Equip spellId - %i", (item ? "item" : "itemset"), spellInfo->Id);
 
         CastSpell(this,spellInfo,true,item);
     }
@@ -8067,7 +8067,7 @@ void Player::CastItemCombatSpell(Unit* Target, WeaponAttackType attType)
         SpellEntry const *spellInfo = sSpellStore.LookupEntry(spellData.SpellId);
         if(!spellInfo)
         {
-            sLog.outError("WORLD: unknown Item spellid %i", spellData.SpellId);
+            sLog.outError("世界： unknown Item spellid %i", spellData.SpellId);
             continue;
         }
 
@@ -8107,7 +8107,7 @@ void Player::CastItemCombatSpell(Unit* Target, WeaponAttackType attType)
             SpellEntry const *spellInfo = sSpellStore.LookupEntry(proc_spell_id);
             if (!spellInfo)
             {
-                sLog.outError("Player::CastItemCombatSpell Enchant %i, cast unknown spell %i", pEnchant->ID, proc_spell_id);
+                sLog.outError("角色：CastItemCombatSpell Enchant %i, cast unknown spell %i", pEnchant->ID, proc_spell_id);
                 continue;
             }
 
@@ -8151,7 +8151,7 @@ void Player::CastItemUseSpell(Item *item,SpellCastTargets const& targets,uint8 c
         SpellEntry const *spellInfo = sSpellStore.LookupEntry(learn_spell_id);
         if (!spellInfo)
         {
-            sLog.outError("Player::CastItemUseSpell: Item (Entry: %u) in have wrong spell id %u, ignoring ",proto->ItemId, learn_spell_id);
+            sLog.outError("角色：CastItemUseSpell: Item (Entry: %u) in have wrong spell id %u, ignoring ",proto->ItemId, learn_spell_id);
             SendEquipError(EQUIP_ERR_NONE, item);
             return;
         }
@@ -8183,7 +8183,7 @@ void Player::CastItemUseSpell(Item *item,SpellCastTargets const& targets,uint8 c
         SpellEntry const *spellInfo = sSpellStore.LookupEntry(spellData.SpellId);
         if (!spellInfo)
         {
-            sLog.outError("Player::CastItemUseSpell: Item (Entry: %u) in have wrong spell id %u, ignoring",proto->ItemId, spellData.SpellId);
+            sLog.outError("角色：CastItemUseSpell: Item (Entry: %u) in have wrong spell id %u, ignoring",proto->ItemId, spellData.SpellId);
             continue;
         }
 
@@ -8212,7 +8212,7 @@ void Player::CastItemUseSpell(Item *item,SpellCastTargets const& targets,uint8 c
             SpellEntry const *spellInfo = sSpellStore.LookupEntry(pEnchant->spellid[s]);
             if (!spellInfo)
             {
-                sLog.outError("Player::CastItemUseSpell Enchant %i, cast unknown spell %i", pEnchant->ID, pEnchant->spellid[s]);
+                sLog.outError("角色：CastItemUseSpell Enchant %i, cast unknown spell %i", pEnchant->ID, pEnchant->spellid[s]);
                 continue;
             }
 
@@ -8450,7 +8450,7 @@ void Player::SendLoot(ObjectGuid guid, LootType loot_type)
     Loot    *loot = 0;
     PermissionTypes permission = ALL_PERMISSION;
 
-    DEBUG_LOG("Player::SendLoot");
+    DEBUG_LOG("角色：SendLoot");
     switch(guid.GetHigh())
     {
         case HIGHGUID_GAMEOBJECT:
@@ -12908,7 +12908,7 @@ void Player::RemoveItemFromBuyBackSlot( uint32 slot, bool del )
 
 void Player::SendEquipError( InventoryResult msg, Item* pItem, Item *pItem2, uint32 itemid /*= 0*/ ) const
 {
-    DEBUG_LOG( "WORLD: Sent SMSG_INVENTORY_CHANGE_FAILURE (%u)", msg);
+    DEBUG_LOG( "世界： Sent SMSG_INVENTORY_CHANGE_FAILURE (%u)", msg);
     WorldPacket data(SMSG_INVENTORY_CHANGE_FAILURE, 1+8+8+1);
     data << uint8(msg);
 
@@ -12978,7 +12978,7 @@ void Player::SendEquipError( InventoryResult msg, Item* pItem, Item *pItem2, uin
 
 void Player::SendBuyError( BuyResult msg, Creature* pCreature, uint32 item, uint32 param )
 {
-    DEBUG_LOG( "WORLD: Sent SMSG_BUY_FAILED" );
+    DEBUG_LOG( "世界： Sent SMSG_BUY_FAILED" );
     WorldPacket data( SMSG_BUY_FAILED, (8+4+4+1) );
     data << (pCreature ? pCreature->GetObjectGuid() : ObjectGuid());
     data << uint32(item);
@@ -12990,7 +12990,7 @@ void Player::SendBuyError( BuyResult msg, Creature* pCreature, uint32 item, uint
 
 void Player::SendSellError( SellResult msg, Creature* pCreature, ObjectGuid itemGuid, uint32 param )
 {
-    DEBUG_LOG( "WORLD: Sent SMSG_SELL_ITEM" );
+    DEBUG_LOG( "世界： Sent SMSG_SELL_ITEM" );
     WorldPacket data( SMSG_SELL_ITEM,(8+8+(param?4:0)+1));  // last check 2.0.10
     data << (pCreature ? pCreature->GetObjectGuid() : ObjectGuid());
     data << ObjectGuid(itemGuid);
@@ -13064,7 +13064,7 @@ void Player::UpdateItemDuration(uint32 time, bool realtimeonly)
     if (m_itemDuration.empty())
         return;
 
-    DEBUG_LOG("Player::UpdateItemDuration(%u,%u)", time, realtimeonly);
+    DEBUG_LOG("角色：UpdateItemDuration(%u,%u)", time, realtimeonly);
 
     for(ItemDurationList::const_iterator itr = m_itemDuration.begin(); itr != m_itemDuration.end(); )
     {
@@ -14879,7 +14879,7 @@ bool Player::SatisfyQuestLog(bool msg) const
     {
         WorldPacket data(SMSG_QUESTLOG_FULL, 0);
         GetSession()->SendPacket(&data);
-        DEBUG_LOG("WORLD: Sent SMSG_QUESTLOG_FULL");
+        DEBUG_LOG("世界： Sent SMSG_QUESTLOG_FULL");
     }
     return false;
 }
@@ -15811,14 +15811,14 @@ void Player::SendQuestCompleteEvent(uint32 quest_id)
         WorldPacket data(SMSG_QUESTUPDATE_COMPLETE, 4);
         data << uint32(quest_id);
         GetSession()->SendPacket(&data);
-        DEBUG_LOG("WORLD: Sent SMSG_QUESTUPDATE_COMPLETE quest = %u", quest_id);
+        DEBUG_LOG("世界： Sent SMSG_QUESTUPDATE_COMPLETE quest = %u", quest_id);
     }
 }
 
 void Player::SendQuestReward( Quest const *pQuest, uint32 XP, Object * questGiver )
 {
     uint32 questid = pQuest->GetQuestId();
-    DEBUG_LOG( "WORLD: Sent SMSG_QUESTGIVER_QUEST_COMPLETE quest = %u", questid );
+    DEBUG_LOG( "世界： Sent SMSG_QUESTGIVER_QUEST_COMPLETE quest = %u", questid );
     WorldPacket data( SMSG_QUESTGIVER_QUEST_COMPLETE, (4+4+4+4+4) );
     data << uint32(questid);
 
@@ -15847,7 +15847,7 @@ void Player::SendQuestFailed( uint32 quest_id, InventoryResult reason)
         data << uint32(quest_id);
         data << uint32(reason);                             // failed reason (valid reasons: 4, 16, 50, 17, 74, other values show default message)
         GetSession()->SendPacket( &data );
-        DEBUG_LOG("WORLD: Sent SMSG_QUESTGIVER_QUEST_FAILED");
+        DEBUG_LOG("世界： Sent SMSG_QUESTGIVER_QUEST_FAILED");
     }
 }
 
@@ -15858,7 +15858,7 @@ void Player::SendQuestTimerFailed( uint32 quest_id )
         WorldPacket data( SMSG_QUESTUPDATE_FAILEDTIMER, 4 );
         data << uint32(quest_id);
         GetSession()->SendPacket( &data );
-        DEBUG_LOG("WORLD: Sent SMSG_QUESTUPDATE_FAILEDTIMER");
+        DEBUG_LOG("世界： Sent SMSG_QUESTUPDATE_FAILEDTIMER");
     }
 }
 
@@ -15867,7 +15867,7 @@ void Player::SendCanTakeQuestResponse( uint32 msg ) const
     WorldPacket data( SMSG_QUESTGIVER_QUEST_INVALID, 4 );
     data << uint32(msg);
     GetSession()->SendPacket( &data );
-    DEBUG_LOG("WORLD: Sent SMSG_QUESTGIVER_QUEST_INVALID");
+    DEBUG_LOG("世界： Sent SMSG_QUESTGIVER_QUEST_INVALID");
 }
 
 void Player::SendQuestConfirmAccept(const Quest* pQuest, Player* pReceiver)
@@ -15884,7 +15884,7 @@ void Player::SendQuestConfirmAccept(const Quest* pQuest, Player* pReceiver)
         data << GetObjectGuid();
         pReceiver->GetSession()->SendPacket(&data);
 
-        DEBUG_LOG("WORLD: Sent SMSG_QUEST_CONFIRM_ACCEPT");
+        DEBUG_LOG("世界： Sent SMSG_QUEST_CONFIRM_ACCEPT");
     }
 }
 
@@ -15896,7 +15896,7 @@ void Player::SendPushToPartyResponse( Player *pPlayer, uint32 msg )
         data << pPlayer->GetObjectGuid();
         data << uint8(msg);                                 // valid values: 0-8
         GetSession()->SendPacket( &data );
-        DEBUG_LOG("WORLD: Sent MSG_QUEST_PUSH_RESULT");
+        DEBUG_LOG("世界： Sent MSG_QUEST_PUSH_RESULT");
     }
 }
 
@@ -15910,7 +15910,7 @@ void Player::SendQuestUpdateAddCreatureOrGo( Quest const* pQuest, ObjectGuid gui
         entry = (-entry) | 0x80000000;
 
     WorldPacket data( SMSG_QUESTUPDATE_ADD_KILL, (4*4+8) );
-    DEBUG_LOG( "WORLD: Sent SMSG_QUESTUPDATE_ADD_KILL" );
+    DEBUG_LOG( "世界： Sent SMSG_QUESTUPDATE_ADD_KILL" );
     data << uint32(pQuest->GetQuestId());
     data << uint32(entry);
     data << uint32(count);
@@ -15963,7 +15963,7 @@ void Player::_LoadArenaTeamInfo(QueryResult *result)
         ArenaTeam* aTeam = sObjectMgr.GetArenaTeamById(arenateamid);
         if(!aTeam)
         {
-            sLog.outError("Player::_LoadArenaTeamInfo: couldn't load arenateam %u", arenateamid);
+            sLog.outError("角色：_LoadArenaTeamInfo: couldn't load arenateam %u", arenateamid);
             continue;
         }
         uint8  arenaSlot = aTeam->GetSlot();
@@ -16957,7 +16957,7 @@ void Player::_LoadInventory(QueryResult *result, uint32 timediff)
             {
                 CharacterDatabase.PExecute("DELETE FROM character_inventory WHERE item = '%u'", item_lowguid);
                 CharacterDatabase.PExecute("DELETE FROM item_instance WHERE guid = '%u'", item_lowguid);
-                sLog.outError( "Player::_LoadInventory: Player %s has an unknown item (id: #%u) in inventory, deleted.", GetName(),item_id );
+                sLog.outError( "角色：_LoadInventory: Player %s has an unknown item (id: #%u) in inventory, deleted.", GetName(),item_id );
                 continue;
             }
 
@@ -16965,7 +16965,7 @@ void Player::_LoadInventory(QueryResult *result, uint32 timediff)
 
             if (!item->LoadFromDB(item_lowguid, fields, GetObjectGuid()))
             {
-                sLog.outError( "Player::_LoadInventory: Player %s has broken item (id: #%u) in inventory, deleted.", GetName(),item_id );
+                sLog.outError( "角色：_LoadInventory: Player %s has broken item (id: #%u) in inventory, deleted.", GetName(),item_id );
                 CharacterDatabase.PExecute("DELETE FROM character_inventory WHERE item = '%u'", item_lowguid);
                 item->FSetState(ITEM_REMOVED);
                 item->SaveToDB();                           // it also deletes item object !
@@ -17084,7 +17084,7 @@ void Player::_LoadInventory(QueryResult *result, uint32 timediff)
             }
             else
             {
-                sLog.outError("Player::_LoadInventory: Player %s has item (GUID: %u Entry: %u) can't be loaded to inventory (Bag GUID: %u Slot: %u) by some reason, will send by mail.", GetName(),item_lowguid, item_id, bag_guid, slot);
+                sLog.outError("角色：_LoadInventory: Player %s has item (GUID: %u Entry: %u) can't be loaded to inventory (Bag GUID: %u Slot: %u) by some reason, will send by mail.", GetName(),item_lowguid, item_id, bag_guid, slot);
                 CharacterDatabase.PExecute("DELETE FROM character_inventory WHERE item = '%u'", item_lowguid);
                 problematicItems.push_back(item);
             }
@@ -17133,7 +17133,7 @@ void Player::_LoadItemLoot(QueryResult *result)
             if (!item)
             {
                 CharacterDatabase.PExecute("DELETE FROM item_loot WHERE guid = '%u'", item_guid);
-                sLog.outError("Player::_LoadItemLoot: Player %s has loot for nonexistent item (GUID: %u) in `item_loot`, deleted.", GetName(), item_guid );
+                sLog.outError("角色：_LoadItemLoot: Player %s has loot for nonexistent item (GUID: %u) in `item_loot`, deleted.", GetName(), item_guid );
                 continue;
             }
 
@@ -17180,7 +17180,7 @@ void Player::_LoadMailedItems(QueryResult *result)
 
         if (!item->LoadFromDB(item_guid_low, fields, GetObjectGuid()))
         {
-            sLog.outError( "Player::_LoadMailedItems - Item in mail (%u) doesn't exist !!!! - item guid: %u, deleted from mail", mail->messageID, item_guid_low);
+            sLog.outError( "角色：_LoadMailedItems - Item in mail (%u) doesn't exist !!!! - item guid: %u, deleted from mail", mail->messageID, item_guid_low);
             CharacterDatabase.PExecute("DELETE FROM mail_items WHERE item_guid = '%u'", item_guid_low);
             item->FSetState(ITEM_REMOVED);
             item->SaveToDB();                               // it also deletes item object !
@@ -17222,7 +17222,7 @@ void Player::_LoadMails(QueryResult *result)
 
         if (m->mailTemplateId && !sMailTemplateStore.LookupEntry(m->mailTemplateId))
         {
-            sLog.outError( "Player::_LoadMail - Mail (%u) have nonexistent MailTemplateId (%u), remove at load", m->messageID, m->mailTemplateId);
+            sLog.outError( "角色：_LoadMail - Mail (%u) have nonexistent MailTemplateId (%u), remove at load", m->messageID, m->mailTemplateId);
             m->mailTemplateId = 0;
         }
 
@@ -17557,7 +17557,7 @@ void Player::_LoadSpells(QueryResult *result)
             // skip talents & drop unneeded data
             if (GetTalentSpellPos(spell_id))
             {
-                sLog.outError("Player::_LoadSpells: %s has talent spell %u in character_spell, removing it.",
+                sLog.outError("角色：_LoadSpells: %s has talent spell %u in character_spell, removing it.",
                     GetGuidStr().c_str(), spell_id);
                 CharacterDatabase.PExecute("DELETE FROM character_spell WHERE spell = '%u'", spell_id);
                 continue;
@@ -17585,7 +17585,7 @@ void Player::_LoadTalents(QueryResult *result)
 
             if (!talentInfo)
             {
-                sLog.outError("Player::_LoadTalents:Player (GUID: %u) has invalid talent_id: %u , this talent will be deleted from character_talent",GetGUIDLow(), talent_id );
+                sLog.outError("角色：_LoadTalents:Player (GUID: %u) has invalid talent_id: %u , this talent will be deleted from character_talent",GetGUIDLow(), talent_id );
                 CharacterDatabase.PExecute("DELETE FROM character_talent WHERE talent_id = '%u'", talent_id);
                 continue;
             }
@@ -17594,7 +17594,7 @@ void Player::_LoadTalents(QueryResult *result)
 
             if (!talentTabInfo)
             {
-                sLog.outError("Player::_LoadTalents:Player (GUID: %u) has invalid talentTabInfo: %u for talentID: %u , this talent will be deleted from character_talent",GetGUIDLow(), talentInfo->TalentTab, talentInfo->TalentID );
+                sLog.outError("角色：_LoadTalents:Player (GUID: %u) has invalid talentTabInfo: %u for talentID: %u , this talent will be deleted from character_talent",GetGUIDLow(), talentInfo->TalentTab, talentInfo->TalentID );
                 CharacterDatabase.PExecute("DELETE FROM character_talent WHERE talent_id = '%u'", talent_id);
                 continue;
             }
@@ -17602,7 +17602,7 @@ void Player::_LoadTalents(QueryResult *result)
             // prevent load talent for different class (cheating)
             if ((getClassMask() & talentTabInfo->ClassMask) == 0)
             {
-                sLog.outError("Player::_LoadTalents:Player (GUID: %u) has talent with ClassMask: %u , but Player's ClassMask is: %u , talentID: %u , this talent will be deleted from character_talent",GetGUIDLow(), talentTabInfo->ClassMask, getClassMask() ,talentInfo->TalentID );
+                sLog.outError("角色：_LoadTalents:Player (GUID: %u) has talent with ClassMask: %u , but Player's ClassMask is: %u , talentID: %u , this talent will be deleted from character_talent",GetGUIDLow(), talentTabInfo->ClassMask, getClassMask() ,talentInfo->TalentID );
                 CharacterDatabase.PExecute("DELETE FROM character_talent WHERE guid = '%u' AND talent_id = '%u'", GetGUIDLow(), talent_id);
                 continue;
             }
@@ -17611,7 +17611,7 @@ void Player::_LoadTalents(QueryResult *result)
 
             if (currentRank > MAX_TALENT_RANK || talentInfo->RankID[currentRank] == 0)
             {
-                sLog.outError("Player::_LoadTalents:Player (GUID: %u) has invalid talent rank: %u , talentID: %u , this talent will be deleted from character_talent",GetGUIDLow(), currentRank, talentInfo->TalentID );
+                sLog.outError("角色：_LoadTalents:Player (GUID: %u) has invalid talent rank: %u , talentID: %u , this talent will be deleted from character_talent",GetGUIDLow(), currentRank, talentInfo->TalentID );
                 CharacterDatabase.PExecute("DELETE FROM character_talent WHERE guid = '%u' AND talent_id = '%u'", GetGUIDLow(), talent_id);
                 continue;
             }
@@ -17620,14 +17620,14 @@ void Player::_LoadTalents(QueryResult *result)
 
             if (spec > MAX_TALENT_SPEC_COUNT)
             {
-                sLog.outError("Player::_LoadTalents:Player (GUID: %u) has invalid talent spec: %u, spec will be deleted from character_talent", GetGUIDLow(), spec);
+                sLog.outError("角色：_LoadTalents:Player (GUID: %u) has invalid talent spec: %u, spec will be deleted from character_talent", GetGUIDLow(), spec);
                 CharacterDatabase.PExecute("DELETE FROM character_talent WHERE spec = '%u' ", spec);
                 continue;
             }
 
             if (spec >= m_specsCount)
             {
-                sLog.outError("Player::_LoadTalents:Player (GUID: %u) has invalid talent spec: %u , this spec will be deleted from character_talent.", GetGUIDLow(), spec);
+                sLog.outError("角色：_LoadTalents:Player (GUID: %u) has invalid talent spec: %u , this spec will be deleted from character_talent.", GetGUIDLow(), spec);
                 CharacterDatabase.PExecute("DELETE FROM character_talent WHERE guid = '%u' AND spec = '%u' ", GetGUIDLow(), spec);
                 continue;
             }
@@ -17804,7 +17804,7 @@ InstancePlayerBind* Player::BindToInstance(DungeonPersistentState *state, bool p
         bind.extend = extend;
 
         if (!load)
-            DEBUG_LOG("Player::BindToInstance: %s(%d) is now bound to map %d, instance %d, difficulty %d",
+            DEBUG_LOG("角色：BindToInstance: %s(%d) is now bound to map %d, instance %d, difficulty %d",
                 GetName(), GetGUIDLow(), state->GetMapId(), state->GetInstanceId(), state->GetDifficulty());
         return &bind;
     }
@@ -18480,7 +18480,7 @@ void Player::_SaveInventory()
 
     if (error)
     {
-        sLog.outError("Player::_SaveInventory - one or more errors occurred save aborted!");
+        sLog.outError("角色：_SaveInventory - one or more errors occurred save aborted!");
         ChatHandler(this).SendSysMessage(LANG_ITEM_SAVE_FAILED);
         return;
     }
@@ -19417,7 +19417,7 @@ void Player::PossessSpellInitialize()
 
     if(!charmInfo)
     {
-        sLog.outError("Player::PossessSpellInitialize(): charm (GUID: %u TypeId: %u) has no charminfo!", charm->GetGUIDLow(),charm->GetTypeId());
+        sLog.outError("角色：PossessSpellInitialize(): charm (GUID: %u TypeId: %u) has no charminfo!", charm->GetGUIDLow(),charm->GetTypeId());
         return;
     }
 
@@ -19446,7 +19446,7 @@ void Player::VehicleSpellInitialize()
 
     if (!charmInfo)
     {
-        sLog.outError("Player::VehicleSpellInitialize(): vehicle (GUID: %u) has no charminfo!", charm->GetGUIDLow());
+        sLog.outError("角色：VehicleSpellInitialize(): vehicle (GUID: %u) has no charminfo!", charm->GetGUIDLow());
         return;
     }
 
@@ -19498,7 +19498,7 @@ void Player::CharmSpellInitialize()
     CharmInfo *charmInfo = charm->GetCharmInfo();
     if(!charmInfo)
     {
-        sLog.outError("Player::CharmSpellInitialize(): the player's charm (GUID: %u TypeId: %u) has no charminfo!", charm->GetGUIDLow(),charm->GetTypeId());
+        sLog.outError("角色：CharmSpellInitialize(): the player's charm (GUID: %u TypeId: %u) has no charminfo!", charm->GetGUIDLow(),charm->GetTypeId());
         return;
     }
 
@@ -19961,7 +19961,7 @@ bool Player::ActivateTaxiPathTo(std::vector<uint32> const& nodes, Creature* npc 
     data << uint32(ERR_TAXIOK);
     GetSession()->SendPacket(&data);
 
-    DEBUG_LOG("WORLD: Sent SMSG_ACTIVATETAXIREPLY");
+    DEBUG_LOG("世界： Sent SMSG_ACTIVATETAXIREPLY");
 
     GetSession()->SendDoFlight(mount_display_id, sourcepath);
 
@@ -19989,7 +19989,7 @@ void Player::ContinueTaxiFlight()
     if (!sourceNode)
         return;
 
-    DEBUG_LOG( "WORLD: Restart character %u taxi flight", GetGUIDLow() );
+    DEBUG_LOG( "世界： Restart character %u taxi flight", GetGUIDLow() );
 
     uint32 mountDisplayId = sObjectMgr.GetTaxiMountDisplayId(sourceNode, GetTeam(), true);
     uint32 path = m_taxi.GetCurrentTaxiPath();
@@ -20202,7 +20202,7 @@ bool Player::BuyItemFromVendorSlot(ObjectGuid vendorGuid, uint32 vendorslot, uin
     Creature *pCreature = GetNPCIfCanInteractWith(vendorGuid, UNIT_NPC_FLAG_VENDOR);
     if (!pCreature)
     {
-        DEBUG_LOG("WORLD: BuyItemFromVendor - %s not found or you can't interact with him.", vendorGuid.GetString().c_str());
+        DEBUG_LOG("世界： BuyItemFromVendor - %s not found or you can't interact with him.", vendorGuid.GetString().c_str());
         SendBuyError(BUY_ERR_DISTANCE_TOO_FAR, NULL, item, 0);
         return false;
     }
@@ -23378,7 +23378,7 @@ void Player::ResummonPetTemporaryUnSummonedIfAny()
         uint32 petnum = GetTemporaryUnsummonedPetNumber(count-1);
         if (petnum == 0)
             continue;
-        DEBUG_LOG("Player::ResummonPetTemporaryUnSummonedIfAny summon pet %u count %u",petnum, count-1);
+        DEBUG_LOG("角色：ResummonPetTemporaryUnSummonedIfAny summon pet %u count %u",petnum, count-1);
         Pet* NewPet = new Pet;
         NewPet->SetPetCounter(count-1);
         if(!NewPet->LoadPetFromDB(this, 0, petnum))

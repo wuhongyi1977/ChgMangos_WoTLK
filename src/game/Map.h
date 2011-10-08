@@ -178,7 +178,7 @@ class MANGOS_DLL_SPEC Map : public GridRefManager<NGridType>
         const char* GetMapName() const;
 
         // have meaning only for instanced map (that have set real difficulty), NOT USE its for BaseMap
-        // _currently_ spawnmode == difficulty, but this can be changes later, so use appropriate spawmmode/difficult functions
+        // _currently_ spawnmode == difficulty, µ«¸Ã can be changes later, so use appropriate spawmmode/difficult functions
         // for simplify later code support
         // regular difficulty = continent/dungeon normal/first raid normal difficulty
         uint8 GetSpawnMode() const { return (i_spawnMode); }

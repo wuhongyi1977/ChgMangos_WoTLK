@@ -69,7 +69,7 @@ public:
     {
         if(!_delaytime)
             return;
-        sLog.outString("Starting up anti-freeze thread (%u seconds max stuck time)...",_delaytime/1000);
+        sLog.outString("初始化世界服务器线程 (%u seconds max stuck time)...",_delaytime/1000);
         m_loops = 0;
         w_loops = 0;
         m_lastchange = 0;
@@ -90,11 +90,11 @@ public:
             // possible freeze
             else if (WorldTimer::getMSTimeDiff(w_lastchange, curtime) > _delaytime)
             {
-                sLog.outError("World Thread hangs, kicking out server!");
+                sLog.outError("世界服务器启动失败！");
                 *((uint32 volatile*)NULL) = 0;              // bang crash
             }
         }
-        sLog.outString("Anti-freeze thread exiting without problems.");
+        sLog.outString("世界服务器线程初始化完成。");
     }
 };
 
@@ -143,10 +143,10 @@ public:
 
         if (m_Acceptor->open (listen_addr, m_Reactor, ACE_NONBLOCK) == -1)
         {
-            sLog.outError ("MaNGOS RA can not bind to port %d on %s", raport, stringip.c_str ());
+            sLog.outError ("无法绑定远程端口 %d 到 %s 上。", raport, stringip.c_str ());
         }
 
-        sLog.outString ("Starting Remote access listner on port %d on %s", raport, stringip.c_str ());
+        sLog.outString ("开始监听远程服务端口  %s: %d", stringip.c_str (), raport);
 
         while (!m_Reactor->reactor_event_loop_done())
         {
@@ -161,7 +161,7 @@ public:
                 break;
             }
         }
-        sLog.outString("RARunnable thread ended");
+        sLog.outString("远程服务线程结束。");
     }
 };
 
@@ -183,12 +183,12 @@ int Master::Run()
         uint32 pid = CreatePIDFile(pidfile);
         if( !pid )
         {
-            sLog.outError( "Cannot create PID file %s.\n", pidfile.c_str() );
+            sLog.outError( "创建 PID文件 %s 失败。\n", pidfile.c_str() );
             Log::WaitBeforeContinueIfNeed();
             return 1;
         }
 
-        sLog.outString( "Daemon PID: %u\n", pid );
+        sLog.outString( "创建 PID: %u\n", pid );
     }
 
     ///- Start the databases
@@ -259,14 +259,14 @@ int Master::Run()
 
                 if(!curAff )
                 {
-                    sLog.outError("Processors marked in UseProcessors bitmask (hex) %x not accessible for mangosd. Accessible processors bitmask (hex): %x",Aff,appAff);
+                    sLog.outError("处理器标识 (hex) %x 不可用。 可用处理器 (hex): %x",Aff,appAff);
                 }
                 else
                 {
                     if(SetProcessAffinityMask(hProcess,curAff))
-                        sLog.outString("Using processors (bitmask, hex): %x", curAff);
+                        sLog.outString("使用处理器 (bitmask, hex): %x", curAff);
                     else
-                        sLog.outError("Can't set used processors (hex): %x",curAff);
+                        sLog.outError("不能使用处理器 (hex): %x",curAff);
                 }
             }
             sLog.outString();
@@ -278,10 +278,9 @@ int Master::Run()
         if(Prio)
         {
             if(SetPriorityClass(hProcess,HIGH_PRIORITY_CLASS))
-                sLog.outString("mangosd process priority class set to HIGH");
+                sLog.outString("世界服务器进程优先级设置为 高 \n");
             else
-                sLog.outError("Can't set mangosd process priority class.");
-            sLog.outString();
+                sLog.outError("设置进程优先级失败！");
         }
     }
     #endif
@@ -313,7 +312,7 @@ int Master::Run()
 
     if (sWorldSocketMgr->StartNetwork (wsport, bind_ip) == -1)
     {
-        sLog.outError ("Failed to start network");
+        sLog.outError ("初始化网络失败！");
         Log::WaitBeforeContinueIfNeed();
         World::StopNow(ERROR_EXIT_CODE);
         // go down and shutdown the server
@@ -364,7 +363,7 @@ int Master::Run()
     WorldDatabase.HaltDelayThread();
     LoginDatabase.HaltDelayThread();
 
-    sLog.outString( "Halting process..." );
+    sLog.outString( "正在关闭服务器……" );
 
     if (cliThread)
     {
@@ -428,15 +427,18 @@ bool Master::_StartDB()
     int nConnections = sConfig.GetIntDefault("WorldDatabaseConnections", 1);
     if(dbstring.empty())
     {
-        sLog.outError("Database not specified in configuration file");
+        sLog.outError("配置文件数据库未定义！");
         return false;
     }
-    sLog.outString("World Database total connections: %i", nConnections + 1);
+	sLog.outString("-----------------------------------------");
+	sLog.outString("数据库连接信息：");
+	sLog.outString("-----------------------------------------");
+    sLog.outString("世界数据库连接数： %i", nConnections + 1);
 
     ///- Initialise the world database
     if(!WorldDatabase.Initialize(dbstring.c_str(), nConnections))
     {
-        sLog.outError("Cannot connect to world database %s",dbstring.c_str());
+        sLog.outError("连接世界数据库 %s 失败！",dbstring.c_str());
         return false;
     }
 
@@ -451,18 +453,18 @@ bool Master::_StartDB()
     nConnections = sConfig.GetIntDefault("CharacterDatabaseConnections", 1);
     if(dbstring.empty())
     {
-        sLog.outError("Character Database not specified in configuration file");
+        sLog.outError("配置文件角色数据库未定义！");
 
         ///- Wait for already started DB delay threads to end
         WorldDatabase.HaltDelayThread();
         return false;
     }
-    sLog.outString("Character Database total connections: %i", nConnections + 1);
+    sLog.outString("角色数据库连接数： %i", nConnections + 1);
 
     ///- Initialise the Character database
     if(!CharacterDatabase.Initialize(dbstring.c_str(), nConnections))
     {
-        sLog.outError("Cannot connect to Character database %s",dbstring.c_str());
+        sLog.outError("连接角色数据库 %s 失败！",dbstring.c_str());
 
         ///- Wait for already started DB delay threads to end
         WorldDatabase.HaltDelayThread();
@@ -482,7 +484,7 @@ bool Master::_StartDB()
     nConnections = sConfig.GetIntDefault("LoginDatabaseConnections", 1);
     if(dbstring.empty())
     {
-        sLog.outError("Login database not specified in configuration file");
+        sLog.outError("配置文件登录服务器数据库未定义！");
 
         ///- Wait for already started DB delay threads to end
         WorldDatabase.HaltDelayThread();
@@ -491,10 +493,10 @@ bool Master::_StartDB()
     }
 
     ///- Initialise the login database
-    sLog.outString("Login Database total connections: %i", nConnections + 1);
+    sLog.outString("账号数据库连接数： %i", nConnections + 1);
     if(!LoginDatabase.Initialize(dbstring.c_str(), nConnections))
     {
-        sLog.outError("Cannot connect to login database %s",dbstring.c_str());
+        sLog.outError("连接登录服务器数据库 %s 失败！",dbstring.c_str());
 
         ///- Wait for already started DB delay threads to end
         WorldDatabase.HaltDelayThread();
@@ -515,7 +517,7 @@ bool Master::_StartDB()
     realmID = sConfig.GetIntDefault("RealmID", 0);
     if(!realmID)
     {
-        sLog.outError("Realm ID not defined in configuration file");
+        sLog.outError("配置文件服务器ID未定义！");
 
         ///- Wait for already started DB delay threads to end
         WorldDatabase.HaltDelayThread();
@@ -524,15 +526,17 @@ bool Master::_StartDB()
         return false;
     }
 
-    sLog.outString("Realm running as realm ID %d", realmID);
+	sLog.outString();
+    sLog.outString("登录服务器 ID %d 正在运行……", realmID);
+	sLog.outString();
 
     ///- Clean the database before starting
     clearOnlineAccounts();
 
     sWorld.LoadDBVersion();
 
-    sLog.outString("Using World DB: %s", sWorld.GetDBVersion());
-    sLog.outString("Using creature EventAI: %s", sWorld.GetCreatureEventAIVersion());
+    sLog.outString("世界数据库版本: %s", sWorld.GetDBVersion());
+    sLog.outString("Event AI  版本：%s", sWorld.GetCreatureEventAIVersion());
     return true;
 }
 

@@ -239,7 +239,7 @@ int WorldSocketMgr::StartReactiveIO (ACE_UINT16 port, const char* address)
 
     m_NetThreads = new ReactorRunnable[m_NetThreadsCount];
 
-    BASIC_LOG("Max allowed socket connections %d", ACE::max_handles());
+    BASIC_LOG("最大允许连接数： %d", ACE::max_handles());
 
     // -1 means use default
     m_SockOutKBuff = sConfig.GetIntDefault("Network.OutKBuff", -1);

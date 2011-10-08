@@ -218,7 +218,7 @@ void BattleGroundAB::HandleAreaTrigger(Player *Source, uint32 Trigger)
         case 4021:                                          // Unk2
             //break;
         default:
-            //sLog.outError("WARNING: Unhandled AreaTrigger in Battleground: %u", Trigger);
+            //sLog.outError("¾¯¸æ£º Unhandled AreaTrigger in Battleground: %u", Trigger);
             //Source->GetSession()->SendAreaTriggerMessage("Warning: Unhandled AreaTrigger in Battleground: %u", Trigger);
             break;
     }

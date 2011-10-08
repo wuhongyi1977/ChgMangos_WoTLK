@@ -1038,7 +1038,7 @@ void WorldSession::ExecuteOpcode( OpcodeHandler const& opHandle, WorldPacket* pa
 
     if (_player)
     {
-        // can be not set in fact for login opcode, but this not create porblems.
+        // can be not set in fact for login opcode, µ«¸Ã not create porblems.
         _player->SetCanDelayTeleport(false);
 
         //we should execute delayed teleports only for alive(!) players

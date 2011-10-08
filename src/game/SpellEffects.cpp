@@ -235,7 +235,7 @@ void Spell::EffectEmpty(SpellEffectIndex /*eff_idx*/)
 
 void Spell::EffectNULL(SpellEffectIndex /*eff_idx*/)
 {
-    DEBUG_LOG("WORLD: Spell Effect DUMMY");
+    DEBUG_LOG("世界： Spell Effect DUMMY");
 }
 
 void Spell::EffectUnused(SpellEffectIndex /*eff_idx*/)
@@ -292,7 +292,7 @@ void Spell::EffectEnvironmentalDMG(SpellEffectIndex eff_idx)
     uint32 resist = 0;
 
     // Note: this hack with damage replace required until GO casting not implemented
-    // environment damage spells already have around enemies targeting but this not help in case nonexistent GO casting support
+    // environment damage spells already have around enemies targeting 但该 not help in case nonexistent GO casting support
     // currently each enemy selected explicitly and self cast damage, we prevent apply self casted spell bonuses/etc
     damage = m_spellInfo->CalculateSimpleValue(eff_idx);
 
@@ -4029,7 +4029,7 @@ void Spell::EffectClearQuest(SpellEffectIndex eff_idx)
 
     if (!sObjectMgr.GetQuestTemplate(quest_id))
     {
-        sLog.outError("Spell::EffectClearQuest spell entry %u attempt clear quest entry %u but this quest does not exist.", m_spellInfo->Id, quest_id);
+        sLog.outError("Spell::EffectClearQuest spell entry %u attempt clear quest entry %u 但该 quest does not exist.", m_spellInfo->Id, quest_id);
         return;
     }
 
@@ -4257,7 +4257,7 @@ void Spell::EffectTriggerMissileSpell(SpellEffectIndex effect_idx)
     }
 
     if (m_CastItem)
-        DEBUG_FILTER_LOG(LOG_FILTER_SPELL_CAST, "WORLD: cast Item spellId - %i", spellInfo->Id);
+        DEBUG_FILTER_LOG(LOG_FILTER_SPELL_CAST, "世界： cast Item spellId - %i", spellInfo->Id);
 
     if (m_caster->GetTypeId() == TYPEID_PLAYER)
         ((Player*)m_caster)->RemoveSpellCooldown(triggered_spell_id);
@@ -5244,7 +5244,7 @@ void Spell::EffectOpenLock(SpellEffectIndex eff_idx)
 {
     if (!m_caster || m_caster->GetTypeId() != TYPEID_PLAYER)
     {
-        DEBUG_LOG( "WORLD: Open Lock - No Player Caster!");
+        DEBUG_LOG( "世界： Open Lock - No Player Caster!");
         return;
     }
 
@@ -5292,7 +5292,7 @@ void Spell::EffectOpenLock(SpellEffectIndex eff_idx)
     }
     else
     {
-        DEBUG_LOG( "WORLD: Open Lock - No GameObject/Item Target!");
+        DEBUG_LOG( "世界： Open Lock - No GameObject/Item Target!");
         return;
     }
 
@@ -5879,7 +5879,7 @@ void Spell::EffectDualWield(SpellEffectIndex /*eff_idx*/)
 void Spell::EffectPull(SpellEffectIndex /*eff_idx*/)
 {
     // TODO: create a proper pull towards distract spell center for distract
-    DEBUG_LOG("WORLD: Spell Effect DUMMY");
+    DEBUG_LOG("世界： Spell Effect DUMMY");
 }
 
 void Spell::EffectDistract(SpellEffectIndex /*eff_idx*/)
@@ -6197,7 +6197,7 @@ void Spell::DoSummonVehicle(SpellEffectIndex eff_idx, uint32 forceFaction)
 
     if (vehicle && !vehicle->GetObjectGuid().IsVehicle())
     {
-        sLog.outError("DoSommonVehicle: Creature (guidlow %d, entry %d) summoned, but this is not vehicle. Correct VehicleId in creature_template.", vehicle->GetGUIDLow(), vehicle->GetEntry());
+        sLog.outError("DoSommonVehicle: Creature (guidlow %d, entry %d) summoned, 但该 is not vehicle. Correct VehicleId in creature_template.", vehicle->GetGUIDLow(), vehicle->GetEntry());
         vehicle->ForcedDespawn();
         return;
     }
@@ -9556,7 +9556,7 @@ void Spell::EffectScriptEffect(SpellEffectIndex eff_idx)
                     if (!unitTarget)
                         return;
 
-                    // script effect have in value, but this outdated removed part
+                    // script effect have in value, 但该 outdated removed part
                     unitTarget->CastSpell(unitTarget, 62305, true);
                     return;
                 }
@@ -11017,7 +11017,7 @@ void Spell::EffectMilling(SpellEffectIndex /*eff_idx*/)
 
 void Spell::EffectSkill(SpellEffectIndex /*eff_idx*/)
 {
-    DEBUG_LOG("WORLD: SkillEFFECT");
+    DEBUG_LOG("世界： SkillEFFECT");
 }
 
 void Spell::EffectSpiritHeal(SpellEffectIndex /*eff_idx*/)

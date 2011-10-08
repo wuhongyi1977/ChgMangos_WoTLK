@@ -1659,7 +1659,7 @@ valid examples:
 
                     if (color != ItemQualityColors[linkedItem->Quality])
                     {
-                        DEBUG_LOG("ChatHandler::isValidChatMessage linked item has color %u, but user claims %u", ItemQualityColors[linkedItem->Quality],
+                        DEBUG_LOG("ChatHandler::isValidChatMessage linked item has color %u, µ« user claims %u", ItemQualityColors[linkedItem->Quality],
                                 color);
                         return false;
                     }

@@ -263,7 +263,7 @@ bool Database::PExecuteLog(const char * format,...)
 
     if(res==-1)
     {
-        sLog.outError("SQL Query truncated (and not execute) for format: %s",format);
+        sLog.outError("SQL 语句格式错误： %s",format);
         return false;
     }
 
@@ -306,7 +306,7 @@ QueryResult* Database::PQuery(const char *format,...)
 
     if(res==-1)
     {
-        sLog.outError("SQL Query truncated (and not execute) for format: %s",format);
+        sLog.outError("SQL 语句格式错误： %s",format);
         return false;
     }
 
@@ -325,7 +325,7 @@ QueryNamedResult* Database::PQueryNamed(const char *format,...)
 
     if(res==-1)
     {
-        sLog.outError("SQL Query truncated (and not execute) for format: %s",format);
+        sLog.outError("SQL 语句格式错误： %s",format);
         return false;
     }
 
@@ -369,7 +369,7 @@ bool Database::PExecute(const char * format,...)
 
     if(res==-1)
     {
-        sLog.outError("SQL Query truncated (and not execute) for format: %s",format);
+        sLog.outError("SQL 语句格式错误: %s",format);
         return false;
     }
 
@@ -389,7 +389,7 @@ bool Database::DirectPExecute(const char * format,...)
 
     if(res==-1)
     {
-        sLog.outError("SQL Query truncated (and not execute) for format: %s",format);
+        sLog.outError("SQL 语句格式错误： %s",format);
         return false;
     }
 
@@ -501,44 +501,44 @@ bool Database::CheckRequiredField( char const* table_name, char const* required_
 
         if(!reqName.empty())
         {
-            sLog.outErrorDb("The table `%s` in your [%s] database indicates that this database is out of date!",table_name,db_name);
+            sLog.outErrorDb("数据表 `%s` 版本 ，数据库： [%s] 已经过期。",table_name,db_name);
             sLog.outErrorDb();
-            sLog.outErrorDb("  [A] You have: --> `%s.sql`",cur_sql_update_name.c_str());
+            sLog.outErrorDb("  [A] 你的版本： --> `%s.sql`",cur_sql_update_name.c_str());
             sLog.outErrorDb();
-            sLog.outErrorDb("  [B] You need: --> `%s.sql`",req_sql_update_name);
+            sLog.outErrorDb("  [B] 需求版本： --> `%s.sql`",req_sql_update_name);
             sLog.outErrorDb();
-            sLog.outErrorDb("You must apply all updates after [A] to [B] to use mangos with this database.");
-            sLog.outErrorDb("These updates are included in the sql/updates folder.");
-            sLog.outErrorDb("Please read the included [README] in sql/updates for instructions on updating.");
+            sLog.outErrorDb("你必须安装所有从版本 [A] 到 [B] 的数据库升级补丁。");
+            sLog.outErrorDb("这些升级补丁包含在目录 sql/updates 下。");
+            sLog.outErrorDb("详细信息请阅读 [README] 文件，该文件在 sql/updates 目录下。");
         }
         else
         {
-            sLog.outErrorDb("The table `%s` in your [%s] database is missing its version info.",table_name,db_name);
-            sLog.outErrorDb("MaNGOS cannot find the version info needed to check that the db is up to date.");
+            sLog.outErrorDb("数据表 `%s` 数据库： [%s] 版本信息已经丢失！",table_name,db_name);
+            sLog.outErrorDb("服务器无法确认数据库版本信息是否正确");
             sLog.outErrorDb();
-            sLog.outErrorDb("This revision of MaNGOS requires a database updated to:");
+            sLog.outErrorDb("当前服务器需求数据库版本为：");
             sLog.outErrorDb("`%s.sql`",req_sql_update_name);
             sLog.outErrorDb();
 
             if(!strcmp(db_name, "WORLD"))
-                sLog.outErrorDb("Post this error to your database provider forum or find a solution there.");
+                sLog.outErrorDb("请将该错误信息发布到 ChgMangos 官方论坛以寻求帮助。");
             else
-                sLog.outErrorDb("Reinstall your [%s] database with the included sql file in the sql folder.",db_name);
+                sLog.outErrorDb("重新安装 [%s] 数据库。",db_name);
         }
     }
     else
     {
-        sLog.outErrorDb("The table `%s` in your [%s] database is missing or corrupt.",table_name,db_name);
-        sLog.outErrorDb("MaNGOS cannot find the version info needed to check that the db is up to date.");
+        sLog.outErrorDb("数据表 `%s` 数据库： [%s] 丢失或不正确。",table_name,db_name);
+        sLog.outErrorDb("服务器无法验证该数据库版本信息是否正确。");
         sLog.outErrorDb();
-        sLog.outErrorDb("This revision of mangos requires a database updated to:");
+        sLog.outErrorDb("当前服务器需求数据库版本为：");
         sLog.outErrorDb("`%s.sql`",req_sql_update_name);
         sLog.outErrorDb();
 
         if(!strcmp(db_name, "WORLD"))
-            sLog.outErrorDb("Post this error to your database provider forum or find a solution there.");
+            sLog.outErrorDb("请将该错误信息发布到 ChgMangos 官方论坛以寻求帮助。");
         else
-            sLog.outErrorDb("Reinstall your [%s] database with the included sql file in the sql folder.",db_name);
+            sLog.outErrorDb("重新安装 [%s] 数据库。",db_name);
     }
 
     return false;

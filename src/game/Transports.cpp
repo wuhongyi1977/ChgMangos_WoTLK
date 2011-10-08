@@ -41,7 +41,7 @@ void MapManager::LoadTransports()
         bar.step();
 
         sLog.outString();
-        sLog.outString( ">> Loaded %u transports", count );
+        sLog.outString( ">> 加载了 %u 个 transports", count );
         return;
     }
 
@@ -79,10 +79,10 @@ void MapManager::LoadTransports()
         if (goinfo->moTransport.mapID)
         {
             m_mapOnTransportGO.insert(std::make_pair(goinfo->moTransport.mapID,t));
-            DEBUG_LOG("Loading transport %u between %s, %s map id %u", entry, name.c_str(), goinfo->name, goinfo->moTransport.mapID);
+            DEBUG_LOG("加载 transport %u between %s, %s map id %u", entry, name.c_str(), goinfo->name, goinfo->moTransport.mapID);
         }
 
-        // sLog.outString("Loading transport %d between %s, %s", entry, name.c_str(), goinfo->name);
+        // sLog.outString("加载 transport %d between %s, %s", entry, name.c_str(), goinfo->name);
 
         std::set<uint32> mapsUsed;
 
@@ -127,8 +127,8 @@ void MapManager::LoadTransports()
     delete result;
 
     sLog.outString();
-    sLog.outString( ">> Loaded %u transports", count );
-    sLog.outString( ">> Loaded " SIZEFMTD " transports with mapID's", m_mapOnTransportGO.size() );
+    sLog.outString( ">> 加载了 %u 个 transports", count );
+    sLog.outString( ">> 加载 " SIZEFMTD " transports with mapID's", m_mapOnTransportGO.size() );
 
     // check transport data DB integrity
     result = WorldDatabase.Query("SELECT gameobject.guid,gameobject.id,transports.name FROM gameobject,transports WHERE gameobject.id = transports.entry");

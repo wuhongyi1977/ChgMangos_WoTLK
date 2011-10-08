@@ -96,7 +96,7 @@ void GameEventMgr::LoadFromDB()
         QueryResult *result = WorldDatabase.Query("SELECT MAX(entry) FROM game_event");
         if( !result )
         {
-            sLog.outString(">> Table game_event is empty.");
+            sLog.outString(">> 数据表 game_event 是空的.");
             sLog.outString();
             return;
         }
@@ -113,7 +113,7 @@ void GameEventMgr::LoadFromDB()
     if (!result)
     {
         mGameEvent.clear();
-        sLog.outString(">> Table game_event is empty!");
+        sLog.outString(">> 数据表 game_event 是空的!");
         sLog.outString();
         return;
     }
@@ -167,7 +167,7 @@ void GameEventMgr::LoadFromDB()
         delete result;
 
         sLog.outString();
-        sLog.outString( ">> Loaded %u game events", count );
+        sLog.outString( ">> 加载了 %u 个 game events", count );
     }
 
     std::map<uint16,int16> pool2event;                      // for check unique spawn event associated with pool
@@ -189,7 +189,7 @@ void GameEventMgr::LoadFromDB()
         bar.step();
 
         sLog.outString();
-        sLog.outString(">> Loaded %u creatures in game events", count );
+        sLog.outString(">> 加载了 %u 个 creatures in game events", count );
     }
     else
     {
@@ -252,7 +252,7 @@ void GameEventMgr::LoadFromDB()
         delete result;
 
         sLog.outString();
-        sLog.outString( ">> Loaded %u creatures in game events", count );
+        sLog.outString( ">> 加载了 %u 个 creatures in game events", count );
     }
 
     mGameEventGameobjectGuids.resize(mGameEvent.size()*2-1);
@@ -267,7 +267,7 @@ void GameEventMgr::LoadFromDB()
         bar.step();
 
         sLog.outString();
-        sLog.outString(">> Loaded %u gameobjects in game events", count );
+        sLog.outString(">> 加载了 %u 个 gameobjects in game events", count );
     }
     else
     {
@@ -330,7 +330,7 @@ void GameEventMgr::LoadFromDB()
         delete result;
 
         sLog.outString();
-        sLog.outString( ">> Loaded %u gameobjects in game events", count );
+        sLog.outString( ">> 加载了 %u 个 gameobjects in game events", count );
     }
 
     // now recheck that all eventPools linked with events after our skip pools with parents
@@ -358,7 +358,7 @@ void GameEventMgr::LoadFromDB()
         bar.step();
 
         sLog.outString();
-        sLog.outString(">> Loaded %u creature reactions at game events", count );
+        sLog.outString(">> 加载了 %u 个 creature reactions at game events", count );
     }
     else
     {
@@ -424,7 +424,7 @@ void GameEventMgr::LoadFromDB()
         delete result;
 
         sLog.outString();
-        sLog.outString(">> Loaded %u creature reactions at game events", count );
+        sLog.outString(">> 加载了 %u 个 creature reactions at game events", count );
     }
 
     mGameEventQuests.resize(mGameEvent.size());
@@ -438,7 +438,7 @@ void GameEventMgr::LoadFromDB()
         bar.step();
 
         sLog.outString();
-        sLog.outString(">> Loaded %u quests additions in game events", count );
+        sLog.outString(">> 加载了 %u 个 quests additions in game events", count );
     }
     else
     {
@@ -468,7 +468,7 @@ void GameEventMgr::LoadFromDB()
 
             if (!pQuest)
             {
-                sLog.outErrorDb("Table `game_event_quest` contain entry for quest %u (event %u) but this quest does not exist. Skipping.", quest, event_id);
+                sLog.outErrorDb("Table `game_event_quest` contain entry for quest %u (event %u) 但该 quest does not exist. 跳过.", quest, event_id);
                 continue;
             }
 
@@ -484,7 +484,7 @@ void GameEventMgr::LoadFromDB()
         delete result;
 
         sLog.outString();
-        sLog.outString( ">> Loaded %u quest additions in game events", count );
+        sLog.outString( ">> 加载了 %u 个 quest additions in game events", count );
     }
 
     mGameEventMails.resize(mGameEvent.size()*2-1);
@@ -498,7 +498,7 @@ void GameEventMgr::LoadFromDB()
         bar.step();
 
         sLog.outString();
-        sLog.outString(">> Loaded %u start/end game event mails", count );
+        sLog.outString(">> 加载了 %u 个 start/end game event mails", count );
     }
     else
     {
@@ -564,7 +564,7 @@ void GameEventMgr::LoadFromDB()
         delete result;
 
         sLog.outString();
-        sLog.outString(">> Loaded %u start/end game event mails", count );
+        sLog.outString(">> 加载了 %u 个 start/end game event mails", count );
     }
 }
 
@@ -588,7 +588,7 @@ uint32 GameEventMgr::Initialize()                           // return the next e
     }
 
     uint32 delay = Update(&activeAtShutdown);
-    BASIC_LOG("Game Event system initialized." );
+    BASIC_LOG("游戏事件系统初始化完成." );
     m_IsGameEventsInit = true;
     return delay;
 }
@@ -641,7 +641,7 @@ uint32 GameEventMgr::Update(ActiveEvents const* activeAtShutdown /*= NULL*/)
         if (calcDelay < nextEventDelay)
             nextEventDelay = calcDelay;
     }
-    BASIC_LOG("Next game event check in %u seconds.", nextEventDelay + 1);
+    BASIC_LOG("下一个游戏事件发生时间: %u 秒.", nextEventDelay + 1);
     return (nextEventDelay + 1) * IN_MILLISECONDS;           // Add 1 second to be sure event has started/stopped at next call
 }
 
@@ -650,7 +650,7 @@ void GameEventMgr::UnApplyEvent(uint16 event_id)
     m_ActiveEvents.erase(event_id);
     CharacterDatabase.PExecute("DELETE FROM game_event_status WHERE event = %u", event_id);
 
-    sLog.outString("GameEvent %u \"%s\" removed.", event_id, mGameEvent[event_id].description.c_str());
+    sLog.outString("移除游戏事件 %u%s \"%s\" ", event_id , (event_id > 9 ? "": " "), mGameEvent[event_id].description.c_str());
     // un-spawn positive event tagged objects
     GameEventUnspawn(event_id);
     // spawn negative event tagget objects
@@ -672,7 +672,7 @@ void GameEventMgr::ApplyNewEvent(uint16 event_id, bool resume)
     if (sWorld.getConfig(CONFIG_BOOL_EVENT_ANNOUNCE))
         sWorld.SendWorldText(LANG_EVENTMESSAGE, mGameEvent[event_id].description.c_str());
 
-    sLog.outString("GameEvent %u \"%s\" started.", event_id, mGameEvent[event_id].description.c_str());
+    sLog.outString("开始游戏事件 %u%s \"%s\" ", event_id, (event_id > 9 ? "": " "), mGameEvent[event_id].description.c_str());
     // spawn positive event tagget objects
     GameEventSpawn(event_id);
     // un-spawn negative event tagged objects
@@ -695,7 +695,7 @@ void GameEventMgr::GameEventSpawn(int16 event_id)
 
     if (internal_event_id < 0 || (size_t)internal_event_id >= mGameEventCreatureGuids.size())
     {
-        sLog.outError("GameEventMgr::GameEventSpawn attempt access to out of range mGameEventCreatureGuids element %i (size: " SIZEFMTD ")",internal_event_id,mGameEventCreatureGuids.size());
+        sLog.outError("游戏事件：GameEventSpawn attempt access to out of range mGameEventCreatureGuids element %i (size: " SIZEFMTD ")",internal_event_id,mGameEventCreatureGuids.size());
         return;
     }
 
@@ -725,7 +725,7 @@ void GameEventMgr::GameEventSpawn(int16 event_id)
 
     if (internal_event_id < 0 || (size_t)internal_event_id >= mGameEventGameobjectGuids.size())
     {
-        sLog.outError("GameEventMgr::GameEventSpawn attempt access to out of range mGameEventGameobjectGuids element %i (size: " SIZEFMTD ")",internal_event_id,mGameEventGameobjectGuids.size());
+        sLog.outError("游戏事件：GameEventSpawn attempt access to out of range mGameEventGameobjectGuids element %i (size: " SIZEFMTD ")",internal_event_id,mGameEventGameobjectGuids.size());
         return;
     }
 
@@ -757,7 +757,7 @@ void GameEventMgr::GameEventSpawn(int16 event_id)
     {
         if((size_t)event_id >= mGameEventSpawnPoolIds.size())
         {
-            sLog.outError("GameEventMgr::GameEventSpawn attempt access to out of range mGameEventSpawnPoolIds element %i (size: " SIZEFMTD ")", event_id, mGameEventSpawnPoolIds.size());
+            sLog.outError("游戏事件：GameEventSpawn attempt access to out of range mGameEventSpawnPoolIds element %i (size: " SIZEFMTD ")", event_id, mGameEventSpawnPoolIds.size());
             return;
         }
 
@@ -772,7 +772,7 @@ void GameEventMgr::GameEventUnspawn(int16 event_id)
 
     if (internal_event_id < 0 || (size_t)internal_event_id >= mGameEventCreatureGuids.size())
     {
-        sLog.outError("GameEventMgr::GameEventUnspawn attempt access to out of range mGameEventCreatureGuids element %i (size: " SIZEFMTD ")",internal_event_id,mGameEventCreatureGuids.size());
+        sLog.outError("游戏事件：GameEventUnspawn attempt access to out of range mGameEventCreatureGuids element %i (size: " SIZEFMTD ")",internal_event_id,mGameEventCreatureGuids.size());
         return;
     }
 
@@ -802,7 +802,7 @@ void GameEventMgr::GameEventUnspawn(int16 event_id)
 
     if (internal_event_id < 0 || (size_t)internal_event_id >= mGameEventGameobjectGuids.size())
     {
-        sLog.outError("GameEventMgr::GameEventUnspawn attempt access to out of range mGameEventGameobjectGuids element %i (size: " SIZEFMTD ")",internal_event_id,mGameEventGameobjectGuids.size());
+        sLog.outError("游戏事件：GameEventUnspawn attempt access to out of range mGameEventGameobjectGuids element %i (size: " SIZEFMTD ")",internal_event_id,mGameEventGameobjectGuids.size());
         return;
     }
 
@@ -834,7 +834,7 @@ void GameEventMgr::GameEventUnspawn(int16 event_id)
     {
         if ((size_t)event_id >= mGameEventSpawnPoolIds.size())
         {
-            sLog.outError("GameEventMgr::GameEventUnspawn attempt access to out of range mGameEventSpawnPoolIds element %i (size: " SIZEFMTD ")", event_id, mGameEventSpawnPoolIds.size());
+            sLog.outError("游戏事件：GameEventUnspawn attempt access to out of range mGameEventSpawnPoolIds element %i (size: " SIZEFMTD ")", event_id, mGameEventSpawnPoolIds.size());
             return;
         }
 

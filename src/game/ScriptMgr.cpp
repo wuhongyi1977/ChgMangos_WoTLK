@@ -97,7 +97,7 @@ void ScriptMgr::LoadScripts(ScriptMapMap& scripts, const char* tablename)
         bar.step();
 
         sLog.outString();
-        sLog.outString(">> Loaded %u script definitions", count);
+        sLog.outString(">> 加载了 %u 个 script definitions", count);
         return;
     }
 
@@ -133,27 +133,27 @@ void ScriptMgr::LoadScripts(ScriptMapMap& scripts, const char* tablename)
             {
                 if (tmp.talk.chatType > CHAT_TYPE_ZONE_YELL)
                 {
-                    sLog.outErrorDb("Table `%s` has invalid CHAT_TYPE_ (datalong = %u) in SCRIPT_COMMAND_TALK for script id %u", tablename, tmp.talk.chatType, tmp.id);
+                    sLog.outErrorDb("数据表 `%s` 包含 invalid CHAT_TYPE_ (datalong = %u) in SCRIPT_COMMAND_TALK for script id %u", tablename, tmp.talk.chatType, tmp.id);
                     continue;
                 }
                 if (tmp.talk.creatureEntry && !ObjectMgr::GetCreatureTemplate(tmp.talk.creatureEntry))
                 {
-                    sLog.outErrorDb("Table `%s` has datalong2 = %u in SCRIPT_COMMAND_TALK for script id %u, but this creature_template does not exist.", tablename, tmp.talk.creatureEntry, tmp.id);
+                    sLog.outErrorDb("数据表 `%s` 包含 datalong2 = %u 在 SCRIPT_COMMAND_TALK 中， script id 为 %u, 但该 creature_template does not exist.", tablename, tmp.talk.creatureEntry, tmp.id);
                     continue;
                 }
                 if (tmp.talk.creatureEntry && !tmp.talk.searchRadius)
                 {
-                    sLog.outErrorDb("Table `%s` has datalong2 = %u in SCRIPT_COMMAND_TALK for script id %u, but search radius is too small (datalong3 = %u).", tablename, tmp.talk.creatureEntry, tmp.id, tmp.talk.searchRadius);
+                    sLog.outErrorDb("数据表 `%s` 包含 datalong2 = %u 在 SCRIPT_COMMAND_TALK 中， script id 为 %u, 但 search radius is too small (datalong3 = %u).", tablename, tmp.talk.creatureEntry, tmp.id, tmp.talk.searchRadius);
                     continue;
                 }
                 if (!GetLanguageDescByID(tmp.talk.language))
                 {
-                    sLog.outErrorDb("Table `%s` has datalong4 = %u in SCRIPT_COMMAND_TALK for script id %u, but this language does not exist.", tablename, tmp.talk.language, tmp.id);
+                    sLog.outErrorDb("数据表 `%s` 包含 datalong4 = %u in SCRIPT_COMMAND_TALK 中， script id 为 %u, 但该 language does not exist.", tablename, tmp.talk.language, tmp.id);
                     continue;
                 }
                 if (tmp.talk.textId[0] == 0)
                 {
-                    sLog.outErrorDb("Table `%s` has invalid talk text id (dataint = %i) in SCRIPT_COMMAND_TALK for script id %u", tablename, tmp.talk.textId[0], tmp.id);
+                    sLog.outErrorDb("数据表 `%s` 包含 invalid talk text id (dataint = %i) in SCRIPT_COMMAND_TALK for script id %u", tablename, tmp.talk.textId[0], tmp.id);
                     continue;
                 }
 
@@ -161,7 +161,7 @@ void ScriptMgr::LoadScripts(ScriptMapMap& scripts, const char* tablename)
                 {
                     if (tmp.talk.textId[i] && (tmp.talk.textId[i] < MIN_DB_SCRIPT_STRING_ID || tmp.talk.textId[i] >= MAX_DB_SCRIPT_STRING_ID))
                     {
-                        sLog.outErrorDb("Table `%s` has out of range text id (dataint = %i expected %u-%u) in SCRIPT_COMMAND_TALK for script id %u", tablename, tmp.talk.textId[i], MIN_DB_SCRIPT_STRING_ID, MAX_DB_SCRIPT_STRING_ID, tmp.id);
+                        sLog.outErrorDb("数据表 `%s` 包含 out of range text id (dataint = %i expected %u-%u) in SCRIPT_COMMAND_TALK for script id %u", tablename, tmp.talk.textId[i], MIN_DB_SCRIPT_STRING_ID, MAX_DB_SCRIPT_STRING_ID, tmp.id);
                         continue;
                     }
                 }
@@ -173,17 +173,17 @@ void ScriptMgr::LoadScripts(ScriptMapMap& scripts, const char* tablename)
             {
                 if (!sEmotesStore.LookupEntry(tmp.emote.emoteId))
                 {
-                    sLog.outErrorDb("Table `%s` has invalid emote id (datalong = %u) in SCRIPT_COMMAND_EMOTE for script id %u", tablename, tmp.emote.emoteId, tmp.id);
+                    sLog.outErrorDb("数据表 `%s` 包含 invalid emote id (datalong = %u) in SCRIPT_COMMAND_EMOTE for script id %u", tablename, tmp.emote.emoteId, tmp.id);
                     continue;
                 }
                 if (tmp.emote.creatureEntry && !ObjectMgr::GetCreatureTemplate(tmp.emote.creatureEntry))
                 {
-                    sLog.outErrorDb("Table `%s` has datalong2 = %u in SCRIPT_COMMAND_EMOTE for script id %u, but this creature_template does not exist.", tablename, tmp.emote.creatureEntry, tmp.id);
+                    sLog.outErrorDb("数据表 `%s` 包含 datalong2 = %u 在 SCRIPT_COMMAND_EMOTE 中， script id 为 %u, 但该 creature_template does not exist.", tablename, tmp.emote.creatureEntry, tmp.id);
                     continue;
                 }
                 if (tmp.emote.creatureEntry && !tmp.emote.searchRadius)
                 {
-                    sLog.outErrorDb("Table `%s` has datalong2 = %u in SCRIPT_COMMAND_EMOTE for script id %u, but search radius is too small (datalong3 = %u).", tablename, tmp.emote.creatureEntry, tmp.id, tmp.emote.searchRadius);
+                    sLog.outErrorDb("数据表 `%s` 包含 datalong2 = %u 在 SCRIPT_COMMAND_EMOTE 中， script id 为 %u, 但 search radius is too small (datalong3 = %u).", tablename, tmp.emote.creatureEntry, tmp.id, tmp.emote.searchRadius);
                     continue;
                 }
                 break;
@@ -192,13 +192,13 @@ void ScriptMgr::LoadScripts(ScriptMapMap& scripts, const char* tablename)
             {
                 if (!sMapStore.LookupEntry(tmp.teleportTo.mapId))
                 {
-                    sLog.outErrorDb("Table `%s` has invalid map (Id: %u) in SCRIPT_COMMAND_TELEPORT_TO for script id %u", tablename, tmp.teleportTo.mapId, tmp.id);
+                    sLog.outErrorDb("数据表 `%s` 包含 invalid map (Id: %u) in SCRIPT_COMMAND_TELEPORT_TO for script id %u", tablename, tmp.teleportTo.mapId, tmp.id);
                     continue;
                 }
 
                 if (!MaNGOS::IsValidMapCoord(tmp.x, tmp.y, tmp.z, tmp.o))
                 {
-                    sLog.outErrorDb("Table `%s` has invalid coordinates (X: %f Y: %f) in SCRIPT_COMMAND_TELEPORT_TO for script id %u", tablename, tmp.x, tmp.y, tmp.id);
+                    sLog.outErrorDb("数据表 `%s` 包含 invalid coordinates (X: %f Y: %f) in SCRIPT_COMMAND_TELEPORT_TO for script id %u", tablename, tmp.x, tmp.y, tmp.id);
                     continue;
                 }
                 break;
@@ -208,13 +208,13 @@ void ScriptMgr::LoadScripts(ScriptMapMap& scripts, const char* tablename)
                 Quest const* quest = sObjectMgr.GetQuestTemplate(tmp.questExplored.questId);
                 if (!quest)
                 {
-                    sLog.outErrorDb("Table `%s` has invalid quest (ID: %u) in SCRIPT_COMMAND_QUEST_EXPLORED in `datalong` for script id %u", tablename, tmp.questExplored.questId, tmp.id);
+                    sLog.outErrorDb("数据表 `%s` 包含 invalid quest (ID: %u) in SCRIPT_COMMAND_QUEST_EXPLORED in `datalong` for script id %u", tablename, tmp.questExplored.questId, tmp.id);
                     continue;
                 }
 
                 if (!quest->HasSpecialFlag(QUEST_SPECIAL_FLAG_EXPLORATION_OR_EVENT))
                 {
-                    sLog.outErrorDb("Table `%s` has quest (ID: %u) in SCRIPT_COMMAND_QUEST_EXPLORED in `datalong` for script id %u, but quest not have flag QUEST_SPECIAL_FLAG_EXPLORATION_OR_EVENT in quest flags. Script command or quest flags wrong. Quest modified to require objective.", tablename, tmp.questExplored.questId, tmp.id);
+                    sLog.outErrorDb("数据表 `%s` 包含 quest (ID: %u) in SCRIPT_COMMAND_QUEST_EXPLORED in `datalong` 中， script id 为 %u, 但 quest not have flag QUEST_SPECIAL_FLAG_EXPLORATION_OR_EVENT in quest flags. Script command or quest flags wrong. Quest modified to require objective.", tablename, tmp.questExplored.questId, tmp.id);
 
                     // this will prevent quest completing without objective
                     const_cast<Quest*>(quest)->SetSpecialFlag(QUEST_SPECIAL_FLAG_EXPLORATION_OR_EVENT);
@@ -224,21 +224,21 @@ void ScriptMgr::LoadScripts(ScriptMapMap& scripts, const char* tablename)
 
                 if (float(tmp.questExplored.distance) > DEFAULT_VISIBILITY_DISTANCE)
                 {
-                    sLog.outErrorDb("Table `%s` has too large distance (%u) for exploring objective complete in `datalong2` in SCRIPT_COMMAND_QUEST_EXPLORED in `datalong` for script id %u",
+                    sLog.outErrorDb("数据表 `%s` 包含 too large distance (%u) for exploring objective complete in `datalong2` in SCRIPT_COMMAND_QUEST_EXPLORED in `datalong` for script id %u",
                         tablename, tmp.questExplored.distance, tmp.id);
                     continue;
                 }
 
                 if (tmp.questExplored.distance && float(tmp.questExplored.distance) > DEFAULT_VISIBILITY_DISTANCE)
                 {
-                    sLog.outErrorDb("Table `%s` has too large distance (%u) for exploring objective complete in `datalong2` in SCRIPT_COMMAND_QUEST_EXPLORED in `datalong` for script id %u, max distance is %f or 0 for disable distance check",
+                    sLog.outErrorDb("数据表 `%s` 包含 too large distance (%u) for exploring objective complete in `datalong2` in SCRIPT_COMMAND_QUEST_EXPLORED in `datalong` 中， script id 为 %u, max distance is %f or 0 for disable distance check",
                         tablename, tmp.questExplored.distance, tmp.id, DEFAULT_VISIBILITY_DISTANCE);
                     continue;
                 }
 
                 if (tmp.questExplored.distance && float(tmp.questExplored.distance) < INTERACTION_DISTANCE)
                 {
-                    sLog.outErrorDb("Table `%s` has too small distance (%u) for exploring objective complete in `datalong2` in SCRIPT_COMMAND_QUEST_EXPLORED in `datalong` for script id %u, min distance is %f or 0 for disable distance check",
+                    sLog.outErrorDb("数据表 `%s` 包含 too small distance (%u) for exploring objective complete in `datalong2` in SCRIPT_COMMAND_QUEST_EXPLORED in `datalong` 中， script id 为 %u, min distance is %f or 0 for disable distance check",
                         tablename, tmp.questExplored.distance, tmp.id, INTERACTION_DISTANCE);
                     continue;
                 }
@@ -249,7 +249,7 @@ void ScriptMgr::LoadScripts(ScriptMapMap& scripts, const char* tablename)
             {
                 if (!ObjectMgr::GetCreatureTemplate(tmp.killCredit.creatureEntry))
                 {
-                    sLog.outErrorDb("Table `%s` has invalid creature (Entry: %u) in SCRIPT_COMMAND_KILL_CREDIT for script id %u", tablename, tmp.killCredit.creatureEntry, tmp.id);
+                    sLog.outErrorDb("数据表 `%s` 包含 invalid creature (Entry: %u) in SCRIPT_COMMAND_KILL_CREDIT for script id %u", tablename, tmp.killCredit.creatureEntry, tmp.id);
                     continue;
                 }
                 break;
@@ -259,14 +259,14 @@ void ScriptMgr::LoadScripts(ScriptMapMap& scripts, const char* tablename)
                 GameObjectData const* data = sObjectMgr.GetGOData(tmp.GetGOGuid());
                 if (!data)
                 {
-                    sLog.outErrorDb("Table `%s` has invalid gameobject (GUID: %u) in SCRIPT_COMMAND_RESPAWN_GAMEOBJECT for script id %u", tablename, tmp.GetGOGuid(), tmp.id);
+                    sLog.outErrorDb("数据表 `%s` 包含 invalid gameobject (GUID: %u) in SCRIPT_COMMAND_RESPAWN_GAMEOBJECT for script id %u", tablename, tmp.GetGOGuid(), tmp.id);
                     continue;
                 }
 
                 GameObjectInfo const* info = ObjectMgr::GetGameObjectInfo(data->id);
                 if (!info)
                 {
-                    sLog.outErrorDb("Table `%s` has gameobject with invalid entry (GUID: %u Entry: %u) in SCRIPT_COMMAND_RESPAWN_GAMEOBJECT for script id %u", tablename, tmp.GetGOGuid(), data->id, tmp.id);
+                    sLog.outErrorDb("数据表 `%s` 包含 gameobject with invalid entry (GUID: %u Entry: %u) in SCRIPT_COMMAND_RESPAWN_GAMEOBJECT for script id %u", tablename, tmp.GetGOGuid(), data->id, tmp.id);
                     continue;
                 }
 
@@ -285,13 +285,13 @@ void ScriptMgr::LoadScripts(ScriptMapMap& scripts, const char* tablename)
             {
                 if (!MaNGOS::IsValidMapCoord(tmp.x, tmp.y, tmp.z, tmp.o))
                 {
-                    sLog.outErrorDb("Table `%s` has invalid coordinates (X: %f Y: %f) in SCRIPT_COMMAND_TEMP_SUMMON_CREATURE for script id %u", tablename, tmp.x, tmp.y, tmp.id);
+                    sLog.outErrorDb("数据表 `%s` 包含 invalid coordinates (X: %f Y: %f) in SCRIPT_COMMAND_TEMP_SUMMON_CREATURE for script id %u", tablename, tmp.x, tmp.y, tmp.id);
                     continue;
                 }
 
                 if (!ObjectMgr::GetCreatureTemplate(tmp.summonCreature.creatureEntry))
                 {
-                    sLog.outErrorDb("Table `%s` has invalid creature (Entry: %u) in SCRIPT_COMMAND_TEMP_SUMMON_CREATURE for script id %u", tablename, tmp.summonCreature.creatureEntry, tmp.id);
+                    sLog.outErrorDb("数据表 `%s` 包含 invalid creature (Entry: %u) in SCRIPT_COMMAND_TEMP_SUMMON_CREATURE for script id %u", tablename, tmp.summonCreature.creatureEntry, tmp.id);
                     continue;
                 }
                 break;
@@ -302,20 +302,20 @@ void ScriptMgr::LoadScripts(ScriptMapMap& scripts, const char* tablename)
                 GameObjectData const* data = sObjectMgr.GetGOData(tmp.GetGOGuid());
                 if (!data)
                 {
-                    sLog.outErrorDb("Table `%s` has invalid gameobject (GUID: %u) in %s for script id %u", tablename, tmp.GetGOGuid(), (tmp.command == SCRIPT_COMMAND_OPEN_DOOR ? "SCRIPT_COMMAND_OPEN_DOOR" : "SCRIPT_COMMAND_CLOSE_DOOR"), tmp.id);
+                    sLog.outErrorDb("数据表 `%s` 包含 invalid gameobject (GUID: %u) in %s for script id %u", tablename, tmp.GetGOGuid(), (tmp.command == SCRIPT_COMMAND_OPEN_DOOR ? "SCRIPT_COMMAND_OPEN_DOOR" : "SCRIPT_COMMAND_CLOSE_DOOR"), tmp.id);
                     continue;
                 }
 
                 GameObjectInfo const* info = ObjectMgr::GetGameObjectInfo(data->id);
                 if (!info)
                 {
-                    sLog.outErrorDb("Table `%s` has gameobject with invalid entry (GUID: %u Entry: %u) in %s for script id %u", tablename, tmp.GetGOGuid(), data->id, (tmp.command == SCRIPT_COMMAND_OPEN_DOOR ? "SCRIPT_COMMAND_OPEN_DOOR" : "SCRIPT_COMMAND_CLOSE_DOOR"), tmp.id);
+                    sLog.outErrorDb("数据表 `%s` 包含 gameobject with invalid entry (GUID: %u Entry: %u) in %s for script id %u", tablename, tmp.GetGOGuid(), data->id, (tmp.command == SCRIPT_COMMAND_OPEN_DOOR ? "SCRIPT_COMMAND_OPEN_DOOR" : "SCRIPT_COMMAND_CLOSE_DOOR"), tmp.id);
                     continue;
                 }
 
                 if (info->type != GAMEOBJECT_TYPE_DOOR)
                 {
-                    sLog.outErrorDb("Table `%s` has gameobject type (%u) non supported by command %s for script id %u", tablename, info->id, (tmp.command == SCRIPT_COMMAND_OPEN_DOOR ? "SCRIPT_COMMAND_OPEN_DOOR" : "SCRIPT_COMMAND_CLOSE_DOOR"), tmp.id);
+                    sLog.outErrorDb("数据表 `%s` 包含 gameobject type (%u) non supported by command %s for script id %u", tablename, info->id, (tmp.command == SCRIPT_COMMAND_OPEN_DOOR ? "SCRIPT_COMMAND_OPEN_DOOR" : "SCRIPT_COMMAND_CLOSE_DOOR"), tmp.id);
                     continue;
                 }
 
@@ -357,7 +357,7 @@ void ScriptMgr::LoadScripts(ScriptMapMap& scripts, const char* tablename)
             {
                 if (!ObjectMgr::GetItemPrototype(tmp.createItem.itemEntry))
                 {
-                    sLog.outErrorDb("Table `%s` has nonexistent item (entry: %u) in SCRIPT_COMMAND_CREATE_ITEM for script id %u",
+                    sLog.outErrorDb("数据表 `%s` 包含 nonexistent item (entry: %u) in SCRIPT_COMMAND_CREATE_ITEM for script id %u",
                         tablename, tmp.createItem.itemEntry, tmp.id);
                     continue;
                 }
@@ -394,12 +394,12 @@ void ScriptMgr::LoadScripts(ScriptMapMap& scripts, const char* tablename)
                 }
                 if (tmp.movement.creatureEntry && !ObjectMgr::GetCreatureTemplate(tmp.movement.creatureEntry))
                 {
-                    sLog.outErrorDb("Table `%s` has datalong2 = %u in SCRIPT_COMMAND_MOVEMENT for script id %u, but this creature_template does not exist.", tablename, tmp.movement.creatureEntry, tmp.id);
+                    sLog.outErrorDb("数据表 `%s` 包含 datalong2 = %u 在 SCRIPT_COMMAND_MOVEMENT 中， script id 为 %u, 但该 creature_template does not exist.", tablename, tmp.movement.creatureEntry, tmp.id);
                     continue;
                 }
                 if (tmp.movement.creatureEntry && !tmp.movement.searchRadius)
                 {
-                    sLog.outErrorDb("Table `%s` has datalong2 = %u in SCRIPT_COMMAND_MOVEMENT for script id %u, but search radius is too small (datalong3 = %u).", tablename, tmp.movement.creatureEntry, tmp.id, tmp.movement.searchRadius);
+                    sLog.outErrorDb("数据表 `%s` 包含 datalong2 = %u 在 SCRIPT_COMMAND_MOVEMENT 中， script id 为 %u, 但 search radius is too small (datalong3 = %u).", tablename, tmp.movement.creatureEntry, tmp.id, tmp.movement.searchRadius);
                     continue;
                 }
 
@@ -409,12 +409,12 @@ void ScriptMgr::LoadScripts(ScriptMapMap& scripts, const char* tablename)
             {
                 if (tmp.activeObject.creatureEntry && !ObjectMgr::GetCreatureTemplate(tmp.activeObject.creatureEntry))
                 {
-                    sLog.outErrorDb("Table `%s` has datalong2 = %u in SCRIPT_COMMAND_SET_ACTIVEOBJECT for script id %u, but this creature_template does not exist.", tablename, tmp.activeObject.creatureEntry, tmp.id);
+                    sLog.outErrorDb("数据表 `%s` 包含 datalong2 = %u 在 SCRIPT_COMMAND_SET_ACTIVEOBJECT 中， script id 为 %u, 但该 creature_template does not exist.", tablename, tmp.activeObject.creatureEntry, tmp.id);
                     continue;
                 }
                 if (tmp.activeObject.creatureEntry && !tmp.activeObject.searchRadius)
                 {
-                    sLog.outErrorDb("Table `%s` has datalong2 = %u in SCRIPT_COMMAND_SET_ACTIVEOBJECT for script id %u, but search radius is too small (datalong3 = %u).", tablename, tmp.activeObject.creatureEntry, tmp.id, tmp.activeObject.searchRadius);
+                    sLog.outErrorDb("数据表 `%s` 包含 datalong2 = %u 在 SCRIPT_COMMAND_SET_ACTIVEOBJECT 中， script id 为 %u, 但 search radius is too small (datalong3 = %u).", tablename, tmp.activeObject.creatureEntry, tmp.id, tmp.activeObject.searchRadius);
                     continue;
                 }
 
@@ -424,18 +424,18 @@ void ScriptMgr::LoadScripts(ScriptMapMap& scripts, const char* tablename)
             {
                 if (tmp.faction.factionId && !sFactionStore.LookupEntry(tmp.faction.factionId))
                 {
-                    sLog.outErrorDb("Table `%s` has datalong2 = %u in SCRIPT_COMMAND_SET_FACTION for script id %u, but this faction does not exist.", tablename, tmp.faction.factionId, tmp.id);
+                    sLog.outErrorDb("数据表 `%s` 包含 datalong2 = %u 在 SCRIPT_COMMAND_SET_FACTION 中， script id 为 %u, 但该 faction does not exist.", tablename, tmp.faction.factionId, tmp.id);
                     continue;
                 }
 
                 if (tmp.faction.creatureEntry && !ObjectMgr::GetCreatureTemplate(tmp.faction.creatureEntry))
                 {
-                    sLog.outErrorDb("Table `%s` has datalong2 = %u in SCRIPT_COMMAND_SET_FACTION for script id %u, but this creature_template does not exist.", tablename, tmp.faction.creatureEntry, tmp.id);
+                    sLog.outErrorDb("数据表 `%s` 包含 datalong2 = %u 在 SCRIPT_COMMAND_SET_FACTION 中， script id 为 %u, 但该 creature_template does not exist.", tablename, tmp.faction.creatureEntry, tmp.id);
                     continue;
                 }
                 if (tmp.faction.creatureEntry && !tmp.faction.searchRadius)
                 {
-                    sLog.outErrorDb("Table `%s` has datalong2 = %u in SCRIPT_COMMAND_SET_FACTION for script id %u, but search radius is too small (datalong3 = %u).", tablename, tmp.faction.creatureEntry, tmp.id, tmp.faction.searchRadius);
+                    sLog.outErrorDb("数据表 `%s` 包含 datalong2 = %u 在 SCRIPT_COMMAND_SET_FACTION 中， script id 为 %u, 但 search radius is too small (datalong3 = %u).", tablename, tmp.faction.creatureEntry, tmp.id, tmp.faction.searchRadius);
                     continue;
                 }
 
@@ -447,7 +447,7 @@ void ScriptMgr::LoadScripts(ScriptMapMap& scripts, const char* tablename)
                 {
                     if (tmp.morph.creatureOrModelEntry && !sCreatureDisplayInfoStore.LookupEntry(tmp.morph.creatureOrModelEntry))
                     {
-                        sLog.outErrorDb("Table `%s` has datalong2 = %u in SCRIPT_COMMAND_MORPH_TO_ENTRY_OR_MODEL for script id %u, but this model does not exist.", tablename, tmp.morph.creatureOrModelEntry, tmp.id);
+                        sLog.outErrorDb("数据表 `%s` 包含 datalong2 = %u 在 SCRIPT_COMMAND_MORPH_TO_ENTRY_OR_MODEL 中， script id 为 %u, 但该 model does not exist.", tablename, tmp.morph.creatureOrModelEntry, tmp.id);
                         continue;
                     }
                 }
@@ -455,19 +455,19 @@ void ScriptMgr::LoadScripts(ScriptMapMap& scripts, const char* tablename)
                 {
                     if (tmp.morph.creatureOrModelEntry && !ObjectMgr::GetCreatureTemplate(tmp.morph.creatureOrModelEntry))
                     {
-                        sLog.outErrorDb("Table `%s` has datalong2 = %u in SCRIPT_COMMAND_MORPH_TO_ENTRY_OR_MODEL for script id %u, but this creature_template does not exist.", tablename, tmp.morph.creatureOrModelEntry, tmp.id);
+                        sLog.outErrorDb("数据表 `%s` 包含 datalong2 = %u 在 SCRIPT_COMMAND_MORPH_TO_ENTRY_OR_MODEL 中， script id 为 %u, 但该 creature_template does not exist.", tablename, tmp.morph.creatureOrModelEntry, tmp.id);
                         continue;
                     }
                 }
 
                 if (tmp.morph.creatureEntry && !ObjectMgr::GetCreatureTemplate(tmp.morph.creatureEntry))
                 {
-                    sLog.outErrorDb("Table `%s` has datalong2 = %u in SCRIPT_COMMAND_MORPH_TO_ENTRY_OR_MODEL for script id %u, but this creature_template does not exist.", tablename, tmp.morph.creatureEntry, tmp.id);
+                    sLog.outErrorDb("数据表 `%s` 包含 datalong2 = %u 在 SCRIPT_COMMAND_MORPH_TO_ENTRY_OR_MODEL 中， script id 为 %u, 但该 creature_template does not exist.", tablename, tmp.morph.creatureEntry, tmp.id);
                     continue;
                 }
                 if (tmp.morph.creatureEntry && !tmp.morph.searchRadius)
                 {
-                    sLog.outErrorDb("Table `%s` has datalong2 = %u in SCRIPT_COMMAND_MORPH_TO_ENTRY_OR_MODEL for script id %u, but search radius is too small (datalong3 = %u).", tablename, tmp.morph.creatureEntry, tmp.id, tmp.morph.searchRadius);
+                    sLog.outErrorDb("数据表 `%s` 包含 datalong2 = %u 在 SCRIPT_COMMAND_MORPH_TO_ENTRY_OR_MODEL 中， script id 为 %u, 但 search radius is too small (datalong3 = %u).", tablename, tmp.morph.creatureEntry, tmp.id, tmp.morph.searchRadius);
                     continue;
                 }
 
@@ -479,7 +479,7 @@ void ScriptMgr::LoadScripts(ScriptMapMap& scripts, const char* tablename)
                 {
                     if (tmp.mount.creatureOrModelEntry && !sCreatureDisplayInfoStore.LookupEntry(tmp.mount.creatureOrModelEntry))
                     {
-                        sLog.outErrorDb("Table `%s` has datalong2 = %u in SCRIPT_COMMAND_MOUNT_TO_ENTRY_OR_MODEL for script id %u, but this model does not exist.", tablename, tmp.mount.creatureOrModelEntry, tmp.id);
+                        sLog.outErrorDb("数据表 `%s` 包含 datalong2 = %u 在 SCRIPT_COMMAND_MOUNT_TO_ENTRY_OR_MODEL 中， script id 为 %u, 但该 model does not exist.", tablename, tmp.mount.creatureOrModelEntry, tmp.id);
                         continue;
                     }
                 }
@@ -487,19 +487,19 @@ void ScriptMgr::LoadScripts(ScriptMapMap& scripts, const char* tablename)
                 {
                     if (tmp.mount.creatureOrModelEntry && !ObjectMgr::GetCreatureTemplate(tmp.mount.creatureOrModelEntry))
                     {
-                        sLog.outErrorDb("Table `%s` has datalong2 = %u in SCRIPT_COMMAND_MOUNT_TO_ENTRY_OR_MODEL for script id %u, but this creature_template does not exist.", tablename, tmp.mount.creatureOrModelEntry, tmp.id);
+                        sLog.outErrorDb("数据表 `%s` 包含 datalong2 = %u 在 SCRIPT_COMMAND_MOUNT_TO_ENTRY_OR_MODEL 中， script id 为 %u, 但该 creature_template does not exist.", tablename, tmp.mount.creatureOrModelEntry, tmp.id);
                         continue;
                     }
                 }
 
                 if (tmp.mount.creatureEntry && !ObjectMgr::GetCreatureTemplate(tmp.mount.creatureEntry))
                 {
-                    sLog.outErrorDb("Table `%s` has datalong2 = %u in SCRIPT_COMMAND_MOUNT_TO_ENTRY_OR_MODEL for script id %u, but this creature_template does not exist.", tablename, tmp.mount.creatureEntry, tmp.id);
+                    sLog.outErrorDb("数据表 `%s` 包含 datalong2 = %u 在 SCRIPT_COMMAND_MOUNT_TO_ENTRY_OR_MODEL 中， script id 为 %u, 但该 creature_template does not exist.", tablename, tmp.mount.creatureEntry, tmp.id);
                     continue;
                 }
                 if (tmp.mount.creatureEntry && !tmp.mount.searchRadius)
                 {
-                    sLog.outErrorDb("Table `%s` has datalong2 = %u in SCRIPT_COMMAND_MOUNT_TO_ENTRY_OR_MODEL for script id %u, but search radius is too small (datalong3 = %u).", tablename, tmp.mount.creatureEntry, tmp.id, tmp.mount.searchRadius);
+                    sLog.outErrorDb("数据表 `%s` 包含 datalong2 = %u 在 SCRIPT_COMMAND_MOUNT_TO_ENTRY_OR_MODEL 中， script id 为 %u, 但 search radius is too small (datalong3 = %u).", tablename, tmp.mount.creatureEntry, tmp.id, tmp.mount.searchRadius);
                     continue;
                 }
 
@@ -509,12 +509,12 @@ void ScriptMgr::LoadScripts(ScriptMapMap& scripts, const char* tablename)
             {
                 if (tmp.run.creatureEntry && !ObjectMgr::GetCreatureTemplate(tmp.run.creatureEntry))
                 {
-                    sLog.outErrorDb("Table `%s` has datalong2 = %u in SCRIPT_COMMAND_SET_RUN for script id %u, but this creature_template does not exist.", tablename, tmp.run.creatureEntry, tmp.id);
+                    sLog.outErrorDb("数据表 `%s` 包含 datalong2 = %u 在 SCRIPT_COMMAND_SET_RUN 中， script id 为 %u, 但该 creature_template does not exist.", tablename, tmp.run.creatureEntry, tmp.id);
                     continue;
                 }
                 if (tmp.run.creatureEntry && !tmp.run.searchRadius)
                 {
-                    sLog.outErrorDb("Table `%s` has datalong2 = %u in SCRIPT_COMMAND_SET_RUN for script id %u, but search radius is too small (datalong3 = %u).", tablename, tmp.run.creatureEntry, tmp.id, tmp.run.searchRadius);
+                    sLog.outErrorDb("数据表 `%s` 包含 datalong2 = %u 在 SCRIPT_COMMAND_SET_RUN 中， script id 为 %u, 但 search radius is too small (datalong3 = %u).", tablename, tmp.run.creatureEntry, tmp.id, tmp.run.searchRadius);
                     continue;
                 }
 
@@ -524,12 +524,12 @@ void ScriptMgr::LoadScripts(ScriptMapMap& scripts, const char* tablename)
             {
                 if (tmp.attack.creatureEntry && !ObjectMgr::GetCreatureTemplate(tmp.attack.creatureEntry))
                 {
-                    sLog.outErrorDb("Table `%s` has datalong2 = %u in SCRIPT_COMMAND_ATTACK_START for script id %u, but this creature_template does not exist.", tablename, tmp.attack.creatureEntry, tmp.id);
+                    sLog.outErrorDb("数据表 `%s` 包含 datalong2 = %u 在 SCRIPT_COMMAND_ATTACK_START 中， script id 为 %u, 但该 creature_template does not exist.", tablename, tmp.attack.creatureEntry, tmp.id);
                     continue;
                 }
                 if (tmp.attack.creatureEntry && !tmp.attack.searchRadius)
                 {
-                    sLog.outErrorDb("Table `%s` has datalong2 = %u in SCRIPT_COMMAND_ATTACK_START for script id %u, but search radius is too small (datalong3 = %u).", tablename, tmp.attack.creatureEntry, tmp.id, tmp.attack.searchRadius);
+                    sLog.outErrorDb("数据表 `%s` 包含 datalong2 = %u 在 SCRIPT_COMMAND_ATTACK_START 中， script id 为 %u, 但 search radius is too small (datalong3 = %u).", tablename, tmp.attack.creatureEntry, tmp.id, tmp.attack.searchRadius);
                     continue;
                 }
                 break;
@@ -538,12 +538,12 @@ void ScriptMgr::LoadScripts(ScriptMapMap& scripts, const char* tablename)
             {
                 if (!ObjectMgr::GetGameObjectInfo(tmp.goLockState.goEntry))
                 {
-                    sLog.outErrorDb("Table `%s` has datalong2 = %u in SCRIPT_COMMAND_GO_LOCK_STATE for script id %u, but this gameobject_template does not exist.", tablename, tmp.goLockState.goEntry, tmp.id);
+                    sLog.outErrorDb("数据表 `%s` 包含 datalong2 = %u 在 SCRIPT_COMMAND_GO_LOCK_STATE 中， script id 为 %u, 但该 gameobject_template does not exist.", tablename, tmp.goLockState.goEntry, tmp.id);
                     continue;
                 }
                 if (!tmp.goLockState.searchRadius)
                 {
-                    sLog.outErrorDb("Table `%s` has invalid search radius (datalong3 = %u) in SCRIPT_COMMAND_GO_LOCK_STATE for script id %u.", tablename, tmp.goLockState.searchRadius, tmp.id);
+                    sLog.outErrorDb("数据表 `%s` 包含 invalid search radius (datalong3 = %u) in SCRIPT_COMMAND_GO_LOCK_STATE for script id %u.", tablename, tmp.goLockState.searchRadius, tmp.id);
                     continue;
                 }
                 if (// lock(0x01) and unlock(0x02) together
@@ -555,7 +555,7 @@ void ScriptMgr::LoadScripts(ScriptMapMap& scripts, const char* tablename)
                     // invalid number
                     tmp.goLockState.lockState >= 0x10)
                 {
-                    sLog.outErrorDb("Table `%s` has invalid lock state (datalong = %u) in SCRIPT_COMMAND_GO_LOCK_STATE for script id %u.", tablename, tmp.goLockState.lockState, tmp.id);
+                    sLog.outErrorDb("数据表 `%s` 包含 invalid lock state (datalong = %u) in SCRIPT_COMMAND_GO_LOCK_STATE for script id %u.", tablename, tmp.goLockState.lockState, tmp.id);
                     continue;
                 }
                 break;
@@ -564,17 +564,17 @@ void ScriptMgr::LoadScripts(ScriptMapMap& scripts, const char* tablename)
             {
                 if (tmp.standState.stand_state >= MAX_UNIT_STAND_STATE)
                 {
-                    sLog.outErrorDb("Table `%s` has invalid stand state (datalong = %u) in SCRIPT_COMMAND_STAND_STATE for script id %u", tablename, tmp.standState.stand_state, tmp.id);
+                    sLog.outErrorDb("数据表 `%s` 包含 invalid stand state (datalong = %u) in SCRIPT_COMMAND_STAND_STATE for script id %u", tablename, tmp.standState.stand_state, tmp.id);
                     continue;
                 }
                 if (tmp.standState.creatureEntry && !ObjectMgr::GetCreatureTemplate(tmp.standState.creatureEntry))
                 {
-                    sLog.outErrorDb("Table `%s` has datalong2 = %u in SCRIPT_COMMAND_STAND_STATE for script id %u, but this creature_template does not exist.", tablename, tmp.standState.creatureEntry, tmp.id);
+                    sLog.outErrorDb("数据表 `%s` 包含 datalong2 = %u 在 SCRIPT_COMMAND_STAND_STATE 中， script id 为 %u, 但该 creature_template does not exist.", tablename, tmp.standState.creatureEntry, tmp.id);
                     continue;
                 }
                 if (tmp.standState.creatureEntry && !tmp.standState.searchRadius)
                 {
-                    sLog.outErrorDb("Table `%s` has datalong2 = %u in SCRIPT_COMMAND_STAND_STATE for script id %u, but search radius is too small (datalong3 = %u).", tablename, tmp.standState.creatureEntry, tmp.id, tmp.standState.searchRadius);
+                    sLog.outErrorDb("数据表 `%s` 包含 datalong2 = %u 在 SCRIPT_COMMAND_STAND_STATE 中， script id 为 %u, 但 search radius is too small (datalong3 = %u).", tablename, tmp.standState.creatureEntry, tmp.id, tmp.standState.searchRadius);
                     continue;
                 }
                 break;
@@ -594,7 +594,7 @@ void ScriptMgr::LoadScripts(ScriptMapMap& scripts, const char* tablename)
     delete result;
 
     sLog.outString();
-    sLog.outString(">> Loaded %u script definitions", count);
+    sLog.outString(">> 加载了 %u 个 script definitions", count);
 }
 
 void ScriptMgr::LoadGameObjectScripts()
@@ -809,7 +809,7 @@ void ScriptMgr::LoadAreaTriggerScripts()
         bar.step();
 
         sLog.outString();
-        sLog.outString(">> Loaded %u scripted areatrigger", count);
+        sLog.outString(">> 加载了 %u 个 scripted areatrigger", count);
         return;
     }
 
@@ -837,7 +837,7 @@ void ScriptMgr::LoadAreaTriggerScripts()
     delete result;
 
     sLog.outString();
-    sLog.outString(">> Loaded %u areatrigger scripts", count);
+    sLog.outString(">> 加载了 %u 个 areatrigger scripts", count);
 }
 
 void ScriptMgr::LoadEventIdScripts()
@@ -853,7 +853,7 @@ void ScriptMgr::LoadEventIdScripts()
         bar.step();
 
         sLog.outString();
-        sLog.outString(">> Loaded %u scripted event id", count);
+        sLog.outString(">> 加载了 %u 个 scripted event id", count);
         return;
     }
 
@@ -937,7 +937,7 @@ void ScriptMgr::LoadEventIdScripts()
     delete result;
 
     sLog.outString();
-    sLog.outString(">> Loaded %u scripted event id", count);
+    sLog.outString(">> 加载了 %u 个 scripted event id", count);
 }
 
 void ScriptMgr::LoadScriptNames()
@@ -963,7 +963,7 @@ void ScriptMgr::LoadScriptNames()
         BarGoLink bar(1);
         bar.step();
         sLog.outString();
-        sLog.outErrorDb(">> Loaded empty set of Script Names!");
+        sLog.outErrorDb(">> 加载 empty set of Script Names!");
         return;
     }
 
@@ -980,7 +980,7 @@ void ScriptMgr::LoadScriptNames()
 
     std::sort(m_scriptNames.begin(), m_scriptNames.end());
     sLog.outString();
-    sLog.outString(">> Loaded %d Script Names", count);
+    sLog.outString(">> 加载 %d Script Names", count);
 }
 
 uint32 ScriptMgr::GetScriptId(const char *name) const
@@ -1162,7 +1162,7 @@ ScriptLoadResult ScriptMgr::LoadScriptLibrary(const char* libName)
 
     m_hScriptLib = MANGOS_LOAD_LIBRARY(name.c_str());
 
-    sLog.outString( ">> Loading %s Script library", name.c_str());
+    sLog.outString( ">> 加载脚本库 %s", name.c_str());
 
     if (!m_hScriptLib)
         return SCRIPT_LOAD_ERR_NOT_FOUND;
@@ -1171,7 +1171,7 @@ ScriptLoadResult ScriptMgr::LoadScriptLibrary(const char* libName)
         GetScriptHookPtr((P), (N));             \
         if (!(P))                               \
         {                                       \
-            sLog.outError("ScriptMgr::LoadScriptLibrary(): function %s not found!", N); \
+            sLog.outError("脚本库：LoadScriptLibrary(): 找不到函数 %s ", N); \
             /* prevent call before init */      \
             m_pOnFreeScriptLibrary = NULL;      \
             UnloadScriptLibrary();              \

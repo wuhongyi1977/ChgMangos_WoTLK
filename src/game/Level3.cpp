@@ -426,7 +426,7 @@ bool ChatHandler::HandleReloadCommandCommand(char* /*args*/)
 
 bool ChatHandler::HandleReloadCreatureQuestRelationsCommand(char* /*args*/)
 {
-    sLog.outString( "Loading Quests Relations... (`creature_questrelation`)" );
+    sLog.outString( "加载 Quests Relations... (`creature_questrelation`)" );
     sObjectMgr.LoadCreatureQuestRelations();
     SendGlobalSysMessage("DB table `creature_questrelation` (creature quest givers) reloaded.");
     return true;
@@ -434,7 +434,7 @@ bool ChatHandler::HandleReloadCreatureQuestRelationsCommand(char* /*args*/)
 
 bool ChatHandler::HandleReloadCreatureQuestInvRelationsCommand(char* /*args*/)
 {
-    sLog.outString( "Loading Quests Relations... (`creature_involvedrelation`)" );
+    sLog.outString( "加载 Quests Relations... (`creature_involvedrelation`)" );
     sObjectMgr.LoadCreatureInvolvedRelations();
     SendGlobalSysMessage("DB table `creature_involvedrelation` (creature quest takers) reloaded.");
     return true;
@@ -478,7 +478,7 @@ bool ChatHandler::HandleReloadGossipScriptsCommand(char* args)
 
 bool ChatHandler::HandleReloadGOQuestRelationsCommand(char* /*args*/)
 {
-    sLog.outString( "Loading Quests Relations... (`gameobject_questrelation`)" );
+    sLog.outString( "加载 Quests Relations... (`gameobject_questrelation`)" );
     sObjectMgr.LoadGameobjectQuestRelations();
     SendGlobalSysMessage("DB table `gameobject_questrelation` (gameobject quest givers) reloaded.");
     return true;
@@ -486,7 +486,7 @@ bool ChatHandler::HandleReloadGOQuestRelationsCommand(char* /*args*/)
 
 bool ChatHandler::HandleReloadGOQuestInvRelationsCommand(char* /*args*/)
 {
-    sLog.outString( "Loading Quests Relations... (`gameobject_involvedrelation`)" );
+    sLog.outString( "加载 Quests Relations... (`gameobject_involvedrelation`)" );
     sObjectMgr.LoadGameobjectInvolvedRelations();
     SendGlobalSysMessage("DB table `gameobject_involvedrelation` (gameobject quest takers) reloaded.");
     return true;
@@ -506,7 +506,7 @@ bool ChatHandler::HandleReloadQuestTemplateCommand(char* /*args*/)
     sObjectMgr.LoadQuests();
     SendGlobalSysMessage("DB table `quest_template` (quest definitions) reloaded.");
 
-    /// dependent also from `gameobject` but this table not reloaded anyway
+    /// dependent also from `gameobject` 但该 table not reloaded anyway
     sLog.outString( "Re-Loading GameObjects for quests..." );
     sObjectMgr.LoadGameObjectForQuests();
     SendGlobalSysMessage("Data GameObjects for quests reloaded.");
@@ -695,7 +695,7 @@ bool ChatHandler::HandleReloadSpellClickSpellsCommand(char* /*args*/)
 
 bool ChatHandler::HandleReloadReservedNameCommand(char* /*args*/)
 {
-    sLog.outString( "Loading ReservedNames... (`reserved_name`)" );
+    sLog.outString( "加载 ReservedNames... (`reserved_name`)" );
     sObjectMgr.LoadReservedPlayersNames();
     SendGlobalSysMessage("DB table `reserved_name` (player reserved names) reloaded.");
     return true;
@@ -7226,12 +7226,12 @@ bool ChatHandler::HandleMmap(char* args)
         if (on)
         {
             sWorld.setConfig(CONFIG_BOOL_MMAP_ENABLED, true);
-            SendSysMessage("WORLD: mmaps are now ENABLED (individual map settings still in effect)");
+            SendSysMessage("世界： mmaps are now ENABLED (individual map settings still in effect)");
         }
         else
         {
             sWorld.setConfig(CONFIG_BOOL_MMAP_ENABLED, false);
-            SendSysMessage("WORLD: mmaps are now DISABLED");
+            SendSysMessage("世界： mmaps are now DISABLED");
         }
         return true;
     }

@@ -370,9 +370,9 @@ void LoadDBCStores(const std::string& dataPath)
     if (!IsAcceptableClientBuild(build))
     {
         if (build)
-            sLog.outError("Found DBC files for build %u but mangosd expected DBC for one from builds: %s Please extract correct DBC files.", build, AcceptableClientBuildsListStr().c_str());
+            sLog.outError("DBC文件版本不正确：当前是 %u 服务器需求：%s 请重新下载或导出DBC文件。", build, AcceptableClientBuildsListStr().c_str());
         else
-            sLog.outError("Incorrect DataDir value in mangosd.conf or not found build info (outdated DBC files). Required one from builds: %s Please extract correct DBC files.",AcceptableClientBuildsListStr().c_str());
+            sLog.outError("mangosd.conf DataDir配置错误，或找不到正确的文件版本 (DBC文件错误)。 需求版本：%s 请重新下载或者导出DBC文件。",AcceptableClientBuildsListStr().c_str());
         Log::WaitBeforeContinueIfNeed();
         exit(1);
     }
@@ -736,7 +736,7 @@ void LoadDBCStores(const std::string& dataPath)
     }
 
     sLog.outString();
-    sLog.outString( ">> Initialized %d data stores", DBCFilesCount );
+    sLog.outString( ">> 初始化 %d 个数据项。", DBCFilesCount );
 }
 
 SimpleFactionsList const* GetFactionTeamList(uint32 faction)

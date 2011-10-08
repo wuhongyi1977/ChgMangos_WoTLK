@@ -154,7 +154,7 @@ namespace VMAP
     bool StaticMapTree::isInLineOfSight(const Vector3& pos1, const Vector3& pos2) const
     {
         float maxDist = (pos2 - pos1).magnitude();
-        // valid map coords should *never ever* produce float overflow, but this would produce NaNs too:
+        // valid map coords should *never ever* produce float overflow, 但该 would produce NaNs too:
         MANGOS_ASSERT(maxDist < std::numeric_limits<float>::max());
         // prevent NaN values which can cause BIH intersection to enter infinite loop
         if (maxDist < 1e-10f)
@@ -176,7 +176,7 @@ namespace VMAP
     {
         bool result=false;
         float maxDist = (pPos2 - pPos1).magnitude();
-        // valid map coords should *never ever* produce float overflow, but this would produce NaNs too:
+        // valid map coords should *never ever* produce float overflow, 但该 would produce NaNs too:
         MANGOS_ASSERT(maxDist < std::numeric_limits<float>::max());
         // prevent NaN values which can cause BIH intersection to enter infinite loop
         if (maxDist < 1e-10f)

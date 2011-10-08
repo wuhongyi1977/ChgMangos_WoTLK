@@ -588,7 +588,7 @@ void WorldSession::HandlePlayerLoginOpcode( WorldPacket & recv_data )
 
     m_playerLoading = true;
 
-    DEBUG_LOG( "WORLD: Recvd Player Logon Message" );
+    DEBUG_LOG( "世界： Recvd Player Logon Message" );
 
     LoginQueryHolder *holder = new LoginQueryHolder(GetAccountId(), playerGuid);
     if (!holder->Initialize())
@@ -699,7 +699,7 @@ void WorldSession::HandlePlayerLogin(LoginQueryHolder *holder)
         data.put(0, linecount);
 
         SendPacket( &data );
-        DEBUG_LOG( "WORLD: Sent motd (SMSG_MOTD)" );
+        DEBUG_LOG( "世界： Sent motd (SMSG_MOTD)" );
     }
 
     //QueryResult *result = CharacterDatabase.PQuery("SELECT guildid,rank FROM guild_member WHERE guid = '%u'",pCurrChar->GetGUIDLow());
@@ -728,7 +728,7 @@ void WorldSession::HandlePlayerLogin(LoginQueryHolder *holder)
             data << uint8(1);
             data << guild->GetMOTD();
             SendPacket(&data);
-            DEBUG_LOG( "WORLD: Sent guild-motd (SMSG_GUILD_EVENT)" );
+            DEBUG_LOG( "世界： Sent guild-motd (SMSG_GUILD_EVENT)" );
 
             guild->DisplayGuildBankTabsInfo(this);
 
@@ -873,7 +873,7 @@ void WorldSession::HandlePlayerLogin(LoginQueryHolder *holder)
 
 void WorldSession::HandleSetFactionAtWarOpcode( WorldPacket & recv_data )
 {
-    DEBUG_LOG( "WORLD: Received CMSG_SET_FACTION_ATWAR" );
+    DEBUG_LOG( "世界： Received CMSG_SET_FACTION_ATWAR" );
 
     uint32 repListID;
     uint8  flag;
@@ -918,7 +918,7 @@ void WorldSession::HandleTutorialResetOpcode( WorldPacket & /*recv_data*/ )
 
 void WorldSession::HandleSetWatchedFactionOpcode(WorldPacket & recv_data)
 {
-    DEBUG_LOG("WORLD: Received CMSG_SET_WATCHED_FACTION");
+    DEBUG_LOG("世界： Received CMSG_SET_WATCHED_FACTION");
     int32 repId;
     recv_data >> repId;
     GetPlayer()->SetInt32Value(PLAYER_FIELD_WATCHED_FACTION_INDEX, repId);
@@ -926,7 +926,7 @@ void WorldSession::HandleSetWatchedFactionOpcode(WorldPacket & recv_data)
 
 void WorldSession::HandleSetFactionInactiveOpcode(WorldPacket & recv_data)
 {
-    DEBUG_LOG("WORLD: Received CMSG_SET_FACTION_INACTIVE");
+    DEBUG_LOG("世界： Received CMSG_SET_FACTION_INACTIVE");
     uint32 replistid;
     uint8 inactive;
     recv_data >> replistid >> inactive;
@@ -1310,7 +1310,7 @@ void WorldSession::HandleCharFactionOrRaceChangeOpcode(WorldPacket& recv_data)
         // Leave Arena Teams
         Player::LeaveAllArenaTeams(guid);
         // Remove signs from petitions (also remove petitions if owner)
-        // NOTE: This is the same as call Player::RemovePetitionsAndSigns(guid, 10); but this can't be called in a Transaction because it initialize another one!!
+        // NOTE: This is the same as call Player::RemovePetitionsAndSigns(guid, 10); 但该 can't be called in a Transaction because it initialize another one!!
         if (QueryResult *result = CharacterDatabase.PQuery("SELECT ownerguid,petitionguid FROM petition_sign WHERE playerguid = '%u'", guid.GetCounter()))
         {
             do // this part effectively does nothing, since the deletion / modification only takes place _after_ the PetitionQuery. Though I don't know if the result remains intact if I execute the delete query beforehand.
