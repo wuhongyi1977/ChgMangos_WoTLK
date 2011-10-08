@@ -425,7 +425,7 @@ void Log::outError( const char * err, ... )
     if (logfile)
     {
         outTimestamp(logfile);
-        fprintf(logfile, "ERROR:" );
+        fprintf(logfile, "´íÎó£º" );
 
         va_start(ap, err);
         vfprintf(logfile, err, ap);
@@ -448,7 +448,7 @@ void Log::outErrorDb()
     if (logfile)
     {
         outTimestamp(logfile);
-        fprintf(logfile, "ERROR:\n" );
+        fprintf(logfile, "´íÎó£º\n" );
         fflush(logfile);
     }
 
