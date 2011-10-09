@@ -609,21 +609,28 @@ bool ChatHandler::HandlePlayerbotCommand(char* args)
 {
     if (sWorld.getConfig(CONFIG_BOOL_PLAYERBOT_DISABLE))
     {
-        PSendSysMessage("|cffff0000Playerbot system is currently disabled!");
+        PSendSysMessage("　|cffff0000机器人系统没有启用！　");
         SetSentErrorMessage(true);
         return false;
     }
 
+    if (m_session->GetPlayer()->GetMap()->IsBattleGroundOrArena() || m_session->GetPlayer()->GetMap()->IsDungeon())
+	{
+		PSendSysMessage("　|cffff0000你不能在战场，竞技场或者副本中召唤机器人！　");
+		SetSentErrorMessage(true);
+		return false;
+	}
+
     if (!m_session)
     {
-        PSendSysMessage("|cffff0000You may only add bots from an active session");
+        PSendSysMessage("　|cffff0000你只能从正确的位置添加机器人！　");
         SetSentErrorMessage(true);
         return false;
     }
 
     if (!*args)
     {
-        PSendSysMessage("|cffff0000usage: add PLAYERNAME  or  remove PLAYERNAME");
+        PSendSysMessage("　|cffff0000 语法：.add 角色名　或者　remove 角色名　");
         SetSentErrorMessage(true);
         return false;
     }
@@ -632,7 +639,7 @@ bool ChatHandler::HandlePlayerbotCommand(char* args)
     char *charname = strtok (NULL, " ");
     if (!cmd || !charname)
     {
-        PSendSysMessage("|cffff0000usage: add PLAYERNAME  or  remove PLAYERNAME");
+        PSendSysMessage("　|cffff0000语法： add 角色名　或者　remove 角色名　");
         SetSentErrorMessage(true);
         return false;
     }
@@ -654,7 +661,7 @@ bool ChatHandler::HandlePlayerbotCommand(char* args)
     uint32 accountId = sObjectMgr.GetPlayerAccountIdByGUID(guid);
     if (accountId != m_session->GetAccountId())
     {
-        PSendSysMessage("|cffff0000You may only add bots from the same account.");
+        PSendSysMessage("　|cffff0000你只能从同一个账号的角色列表中添加机器人！　");
         SetSentErrorMessage(true);
         return false;
     }
@@ -676,7 +683,7 @@ bool ChatHandler::HandlePlayerbotCommand(char* args)
         if (!(m_session->GetSecurity() > SEC_PLAYER))
             if (acctcharcount > maxnum && (cmdStr == "add" || cmdStr == "login"))
             {
-                PSendSysMessage("|cffff0000You cannot summon anymore bots.(Current Max: |cffffffff%u)", maxnum);
+                PSendSysMessage("　|cffff0000你不能再召唤更多的机器人角色了！（最大限制：|cffffffff%u）　", maxnum);
                 SetSentErrorMessage(true);
                 delete resultchar;
                 return false;

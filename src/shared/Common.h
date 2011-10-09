@@ -72,7 +72,6 @@
 #include <signal.h>
 #include <assert.h>
 #include <Windows.h>
-#include <locale.h >
 
 #if defined(__sun__)
 #include <ieeefp.h> // finite() on Solaris
