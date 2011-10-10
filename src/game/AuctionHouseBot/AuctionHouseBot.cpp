@@ -219,34 +219,38 @@ bool AuctionBotConfig::Initialize()
 {
     if (!m_AhBotCfg.SetSource(m_configFileName.c_str()))
     {
-        sLog.outString("AHBOT is Disabled. Unable to open configuration file(%s). ", m_configFileName.c_str());
+        sLog.outString("打开配置文件(%s) 失败，拍卖行机器人将不能使用。 ", m_configFileName.c_str());
         setConfig(CONFIG_UINT32_AHBOT_ALLIANCE_ITEM_AMOUNT_RATIO, 0);
         setConfig(CONFIG_UINT32_AHBOT_HORDE_ITEM_AMOUNT_RATIO, 0);
         setConfig(CONFIG_UINT32_AHBOT_NEUTRAL_ITEM_AMOUNT_RATIO, 0);
         return false;
     }
     else
-        sLog.outString("AHBot using configuration file %s", m_configFileName.c_str());
+    {
+        sLog.outString("-----------------------------------------");
+        sLog.outString("使用配置文件 %s", m_configFileName.c_str());
+        sLog.outString();
+    }
 
     GetConfigFromFile();
 
     if (!getConfig(CONFIG_BOOL_AHBOT_BUYER_ENABLED) && !getConfig(CONFIG_BOOL_AHBOT_SELLER_ENABLED))
     {
-        sLog.outString("AHBOT is Disabled. (If you want to use it please set config in 'ahbot.conf')");
+        sLog.outString("拍卖行机器人系统关闭。 (如果想要开启请修改 'ahbot.conf')");
         return false;
     }
 
     if ((getConfig(CONFIG_UINT32_AHBOT_ALLIANCE_ITEM_AMOUNT_RATIO)==0) && (getConfig(CONFIG_UINT32_AHBOT_HORDE_ITEM_AMOUNT_RATIO)==0) && (getConfig(CONFIG_UINT32_AHBOT_NEUTRAL_ITEM_AMOUNT_RATIO)==0) &&
         !getConfig(CONFIG_BOOL_AHBOT_BUYER_ALLIANCE_ENABLED) && !getConfig(CONFIG_BOOL_AHBOT_BUYER_HORDE_ENABLED) && !getConfig(CONFIG_BOOL_AHBOT_BUYER_NEUTRAL_ENABLED))
     {
-        sLog.outString("All feature of AuctionHouseBot are disabled! (If you want to use it please set config in 'ahbot.conf')");
+        sLog.outString("所有拍卖行机器人功能关闭。 (如果想要开启请修改 'ahbot.conf')");
         return false;
     }
     if ((getConfig(CONFIG_UINT32_AHBOT_ALLIANCE_ITEM_AMOUNT_RATIO)==0) && (getConfig(CONFIG_UINT32_AHBOT_HORDE_ITEM_AMOUNT_RATIO)==0) && (getConfig(CONFIG_UINT32_AHBOT_NEUTRAL_ITEM_AMOUNT_RATIO)==0))
-        sLog.outString("AuctionHouseBot SELLER is disabled! (If you want to use it please set config in 'ahbot.conf')");
+        sLog.outString("拍卖行机器人出售关闭。 (如果想要开启请修改 'ahbot.conf')");
 
     if (!getConfig(CONFIG_BOOL_AHBOT_BUYER_ALLIANCE_ENABLED) && !getConfig(CONFIG_BOOL_AHBOT_BUYER_HORDE_ENABLED) && !getConfig(CONFIG_BOOL_AHBOT_BUYER_NEUTRAL_ENABLED))
-        sLog.outString("AuctionHouseBot BUYER is disabled! (If you want to use it please set config in 'ahbot.conf')");
+        sLog.outString("拍卖行机器人购买关闭。 (如果想要开启请修改 'ahbot.conf')");
 
     m_ItemsPerCycleBoost = getConfig(CONFIG_UINT32_AHBOT_ITEMS_PER_CYCLE_BOOST);
     m_ItemsPerCycleNormal = getConfig(CONFIG_UINT32_AHBOT_ITEMS_PER_CYCLE_NORMAL);
@@ -258,7 +262,7 @@ void AuctionBotConfig::setConfig(AuctionBotConfigUInt32Values index, char const*
     setConfig(index, m_AhBotCfg.GetIntDefault(fieldname,defvalue));
     if (int32(getConfig(index)) < 0)
     {
-        sLog.outError("AHBot: %s (%i) 不能加载，使用 %u instead.", fieldname, int32(getConfig(index)), defvalue);
+        sLog.outError("拍卖行机器人: %s (%i) 不能加载，使用 %u 代替", fieldname, int32(getConfig(index)), defvalue);
         setConfig(index, defvalue);
     }
 }
@@ -268,7 +272,7 @@ void AuctionBotConfig::setConfigMax(AuctionBotConfigUInt32Values index, char con
     setConfig(index, m_AhBotCfg.GetIntDefault(fieldname,defvalue));
     if (getConfig(index) > maxvalue)
     {
-        sLog.outError("AHBot: %s (%u) must be in range 0...%u. 使用 %u 代替.", fieldname, getConfig(index), maxvalue, maxvalue);
+        sLog.outError("拍卖行机器人: %s (%u) 必须介于 0...%u. 使用 %u 代替.", fieldname, getConfig(index), maxvalue, maxvalue);
         setConfig(index, maxvalue);
     }
 }
@@ -278,12 +282,12 @@ void AuctionBotConfig::setConfigMinMax(AuctionBotConfigUInt32Values index, char 
     setConfig(index, m_AhBotCfg.GetIntDefault(fieldname,defvalue));
     if (getConfig(index) > maxvalue)
     {
-        sLog.outError("AHBot: %s (%u) must be in range %u...%u. 使用 %u 代替.", fieldname, getConfig(index), minvalue, maxvalue, maxvalue);
+        sLog.outError("拍卖行机器人: %s (%u) 必须介于 %u...%u. 使用 %u 代替.", fieldname, getConfig(index), minvalue, maxvalue, maxvalue);
         setConfig(index, maxvalue);
     }
     if (getConfig(index) < minvalue)
     {
-        sLog.outError("AHBot: %s (%u) must be in range %u...%u. 使用 %u 代替.", fieldname, getConfig(index), minvalue, maxvalue, minvalue);
+        sLog.outError("拍卖行机器人: %s (%u) 必须介于 %u...%u. 使用 %u 代替.", fieldname, getConfig(index), minvalue, maxvalue, minvalue);
         setConfig(index, minvalue);
     }
 }
@@ -303,7 +307,7 @@ void AuctionBotConfig::GetConfigFromFile()
 {
     //Check config file version
     if (m_AhBotCfg.GetIntDefault("ConfVersion", 0) != AUCTIONHOUSEBOT_CONF_VERSION)
-        sLog.outError("AHBot: Configuration file version doesn't match expected version. Some config variables may be wrong or missing.");
+        sLog.outError("拍卖行机器人: 配置文件版本不正确。一些功能可能无法使用。");
 
     setConfigMax(CONFIG_UINT32_AHBOT_ALLIANCE_ITEM_AMOUNT_RATIO , "AuctionHouseBot.Alliance.Items.Amount.Ratio" , 100, 10000);
     setConfigMax(CONFIG_UINT32_AHBOT_HORDE_ITEM_AMOUNT_RATIO    , "AuctionHouseBot.Horde.Items.Amount.Ratio"    , 100, 10000);
@@ -856,7 +860,7 @@ bool AuctionBotBuyer::Update(AuctionHouseType houseType)
 {
     if (sAuctionBotConfig.getConfigBuyerEnabled(houseType))
     {
-        DEBUG_FILTER_LOG(LOG_FILTER_AHBOT_BUYER, "AHBot: %s buying ...", AuctionBotConfig::GetHouseTypeName(houseType));
+        DEBUG_FILTER_LOG(LOG_FILTER_AHBOT_BUYER, "机器人: %s 购买 ...", AuctionBotConfig::GetHouseTypeName(houseType));
         if (GetBuyableEntry(m_HouseConfig[houseType]) > 0)
             addNewAuctionBuyerBotBid(m_HouseConfig[houseType]);
         return true;
@@ -884,7 +888,7 @@ bool AuctionBotSeller::Initialize()
     std::vector<uint32> includeItems;
     std::vector<uint32> excludeItems;
 
-    sLog.outString("AHBot seller filters:");
+    sLog.outString("拍卖行机器人出售列表:");
     sLog.outString();
 
     {
@@ -901,11 +905,11 @@ bool AuctionBotSeller::Initialize()
             excludeItems.push_back(atoi(temp.c_str()));
 
     }
-    sLog.outString("Forced Inclusion " SIZEFMTD " items", includeItems.size());
-    sLog.outString("Forced Exclusion " SIZEFMTD " items", excludeItems.size());
+    sLog.outString("加载 " SIZEFMTD " 个内部物品", includeItems.size());
+    sLog.outString("加载 " SIZEFMTD " 个扩展物品", excludeItems.size());
     sLog.outString();
 
-    sLog.outString("加载 npc vendor items for filter..");
+    sLog.outString("加载 商人出售列表...");
     if (QueryResult* result = WorldDatabase.Query("SELECT DISTINCT item FROM npc_vendor"))
     {
         BarGoLink bar(result->GetRowCount());
@@ -923,10 +927,10 @@ bool AuctionBotSeller::Initialize()
         BarGoLink bar(1);
         bar.step();
     }
-    sLog.outString("Npc vendor filter has " SIZEFMTD " items", npcItems.size());
+    sLog.outString("商人出售列表包含 " SIZEFMTD " 个物品", npcItems.size());
     sLog.outString();
 
-    sLog.outString("加载 loot items for filter..");
+    sLog.outString("加载 掉落物品列表..");
     if (QueryResult* result = WorldDatabase.PQuery(
         "SELECT item FROM creature_loot_template UNION "
         "SELECT item FROM disenchant_loot_template UNION "
@@ -958,10 +962,10 @@ bool AuctionBotSeller::Initialize()
         BarGoLink bar(1);
         bar.step();
     }
-    sLog.outString("Loot filter has " SIZEFMTD " items", lootItems.size());
+    sLog.outString("掉落物品列表包含 " SIZEFMTD " 件物品", lootItems.size());
     sLog.outString();
 
-    sLog.outString("Sorting and cleaning items for AHBot seller...");
+    sLog.outString("整理&清理物品列表...");
 
     uint32 itemsAdded = 0;
 
@@ -1213,27 +1217,29 @@ bool AuctionBotSeller::Initialize()
 
     if (!itemsAdded)
     {
-        sLog.outError("AuctionHouseBot seller not have items, disabled.");
+        sLog.outString();
+        sLog.outError("机器人没有出售物品列表,关闭.");
         sAuctionBotConfig.setConfig(CONFIG_UINT32_AHBOT_ALLIANCE_ITEM_AMOUNT_RATIO, 0);
         sAuctionBotConfig.setConfig(CONFIG_UINT32_AHBOT_HORDE_ITEM_AMOUNT_RATIO, 0);
         sAuctionBotConfig.setConfig(CONFIG_UINT32_AHBOT_NEUTRAL_ITEM_AMOUNT_RATIO, 0);
         return false;
     }
-
-    sLog.outString("AuctionHouseBot seller will use %u items to fill auction house (according your config choices)", itemsAdded);
+    sLog.outString();
+    sLog.outString("拍卖行机器人将使用 %u 件物品填充拍卖行.", itemsAdded);
+    sLog.outString();
 
     LoadConfig();
 
-    sLog.outString("Items loaded      \tGrey\tWhite\tGreen\tBlue\tPurple\tOrange\tYellow");
+    sLog.outString("物品类型       \t劣质\t普通\t优秀\t精良\t史诗\t传说\t神器");
     for (uint32 i = 0; i < MAX_ITEM_CLASS; ++i)
-        sLog.outString("%-18s\t" SIZEFMTD "\t" SIZEFMTD "\t" SIZEFMTD "\t" SIZEFMTD "\t" SIZEFMTD "\t" SIZEFMTD "\t" SIZEFMTD,
-            sAuctionBotConfig.GetItemClassName(ItemClass(i)),
+        sLog.outString("%-15s\t" SIZEFMTD "\t" SIZEFMTD "\t" SIZEFMTD "\t" SIZEFMTD "\t" SIZEFMTD "\t" SIZEFMTD "\t" SIZEFMTD,
+            sLog.Utf8ToUnicode(sAuctionBotConfig.GetItemClassName(ItemClass(i))),
             m_ItemPool[0][i].size(), m_ItemPool[1][i].size(), m_ItemPool[2][i].size(),
             m_ItemPool[3][i].size(), m_ItemPool[4][i].size(), m_ItemPool[5][i].size(),
             m_ItemPool[6][i].size());
 
     sLog.outString();
-    sLog.outString("AHBot seller configuration data loaded and initilized");
+    sLog.outString("初始化拍卖行机器人自动出售。。。");
 
     sLog.SetLogFilter(LOG_FILTER_AHBOT_SELLER, !sAuctionBotConfig.getConfig(CONFIG_BOOL_AHBOT_DEBUG_SELLER));
     return true;
@@ -1463,10 +1469,10 @@ uint32 AuctionBotSeller::SetStat(AHB_Seller_Config& config)
         }
     }
 
-    DEBUG_FILTER_LOG(LOG_FILTER_AHBOT_SELLER, "AHBot: Missed Item       \tGrey\tWhite\tGreen\tBlue\tPurple\tOrange\tYellow");
+    DEBUG_FILTER_LOG(LOG_FILTER_AHBOT_SELLER, "拍卖行机器人: 丢失物品       \t劣质\t普通\t优秀\t精良\t史诗\t传说\t神器");
     for (uint32 i=0; i<MAX_ITEM_CLASS;++i)
     {
-        DEBUG_FILTER_LOG(LOG_FILTER_AHBOT_SELLER, "AHBot: %-18s\t%u\t%u\t%u\t%u\t%u\t%u\t%u",
+        DEBUG_FILTER_LOG(LOG_FILTER_AHBOT_SELLER, "拍卖行机器人: %-18s\t%u\t%u\t%u\t%u\t%u\t%u\t%u",
             sAuctionBotConfig.GetItemClassName(ItemClass(i)),
             config.GetMissedItemsPerClass(AUCTION_QUALITY_GREY, (ItemClass) i),
             config.GetMissedItemsPerClass(AUCTION_QUALITY_WHITE, (ItemClass) i),
@@ -1606,7 +1612,7 @@ void AuctionBotSeller::addNewAuctions(AHB_Seller_Config& config)
     if (config.LastMissedItem > sAuctionBotConfig.GetItemPerCycleBoost())
     {
         items=sAuctionBotConfig.GetItemPerCycleBoost();
-        BASIC_FILTER_LOG(LOG_FILTER_AHBOT_BUYER, "AHBot: Boost value used to fill AH! (if this happens often adjust both ItemsPerCycle in ahbot.conf)");
+        BASIC_FILTER_LOG(LOG_FILTER_AHBOT_BUYER, "拍卖行机器人: 填充拍卖行 (如果经常出现此提示请修改 ahbot.conf)");
     }
     else items=sAuctionBotConfig.GetItemPerCycleNormal();
 
@@ -1639,14 +1645,14 @@ void AuctionBotSeller::addNewAuctions(AHB_Seller_Config& config)
 
         if (!itemID)
         {
-            DEBUG_FILTER_LOG(LOG_FILTER_AHBOT_SELLER, "AHBot: Item entry 0 auction creating attempt.");
+            DEBUG_FILTER_LOG(LOG_FILTER_AHBOT_SELLER, "拍卖行机器人: Item entry 0 auction creating attempt.");
             continue;
         }
 
         ItemPrototype const* prototype = sObjectMgr.GetItemPrototype(itemID);
         if (!prototype)
         {
-            DEBUG_FILTER_LOG(LOG_FILTER_AHBOT_SELLER, "AHBot: Unknown item %u auction creating attempt.", itemID);
+            DEBUG_FILTER_LOG(LOG_FILTER_AHBOT_SELLER, "拍卖行机器人: Unknown item %u auction creating attempt.", itemID);
             continue;
         }
 
@@ -1656,7 +1662,7 @@ void AuctionBotSeller::addNewAuctions(AHB_Seller_Config& config)
         Item* item = Item::CreateItem(itemID, stackCount);
         if (!item)
         {
-            sLog.outError("AHBot: Item::CreateItem() returned NULL for item %u (stack: %u)", itemID, stackCount);
+            sLog.outError("拍卖行机器人: Item::CreateItem() 返回 NULL ,源: %u (stack: %u)", itemID, stackCount);
             return;
         }
 
@@ -1678,7 +1684,7 @@ bool AuctionBotSeller::Update(AuctionHouseType houseType)
 {
     if (sAuctionBotConfig.getConfigItemAmountRatio(houseType) > 0)
     {
-        DEBUG_FILTER_LOG(LOG_FILTER_AHBOT_SELLER, "AHBot: %s selling ...", AuctionBotConfig::GetHouseTypeName(houseType));
+        DEBUG_FILTER_LOG(LOG_FILTER_AHBOT_SELLER, "拍卖行机器人: %s 出售 ...", AuctionBotConfig::GetHouseTypeName(houseType));
         if (SetStat(m_HouseConfig[houseType]))
             addNewAuctions(m_HouseConfig[houseType]);
         return true;
@@ -1757,7 +1763,7 @@ bool AuctionHouseBot::ReloadAllConfig()
 {
     if (!sAuctionBotConfig.Reload())
     {
-        sLog.outError("AHBot: Error while trying to reload config from file!");
+        sLog.outError("拍卖行机器人: 重载配置文件时发生错误.");
         return false;
     }
 
